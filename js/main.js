@@ -11,6 +11,7 @@ var pinElement = document.querySelector('#pin').content.querySelector('.map__pin
 var pinHeight = 50;
 var pinWidth = 70;
 
+
 // случайное число от min до (max+1)
 function randomInteger(min, max) {
   var rand = min + Math.random() * (max + 1 - min);
@@ -26,7 +27,7 @@ var randomArray = function (array) {
 var createAd = function (n) {
   var rect = map.getBoundingClientRect();
   var location = {
-    x: randomInteger(rect.left - pinHeight, rect.width - pinWidth/2),
+    x: randomInteger(rect.left - pinHeight, rect.width - pinWidth / 2),
     y: randomInteger(130, 630),
   };
   return {
@@ -37,11 +38,11 @@ var createAd = function (n) {
       title: 'Some title',
       adress: location.x + ', ' + location.y,
       price: 'price',
-      type: TYPES[randomInteger(TYPES[0], TYPES.length - 1)],
+      type: TYPES[randomInteger(0, TYPES.length - 1)],
       rooms: 'rooms',
       guests: 'guests',
-      checkin: TIMES[randomInteger(TIMES[0], TIMES.length - 1)],
-      checkout: TIMES[randomInteger(TIMES[0], TIMES.length - 1)],
+      checkin: TIMES[randomInteger(0, TIMES.length - 1)],
+      checkout: TIMES[randomInteger(0, TIMES.length - 1)],
       features: randomArray(FEATURES),
       description: 'description',
       photos: randomArray(PHOTOS),
@@ -50,6 +51,7 @@ var createAd = function (n) {
   }
 }
 
+//Функция добавления объектов в массив
 var createAds = function () {
   var ads = [];
   for (var i = 1; i <= 8; i++) {
@@ -57,8 +59,10 @@ var createAds = function () {
   }
   return ads
 };
+
 var ads = createAds();
 
+//Функция отрисовки меток на карте по данным координат
 var renderPins = function () {
   var fragment = new DocumentFragment();
 
@@ -76,3 +80,9 @@ var renderPins = function () {
 renderPins();
 
 map.classList.remove('map--faded');
+
+//Создание карточки предложения
+
+var baseCard = ads[0];
+var cardTemplate = document.querySelector('#card').content;
+
