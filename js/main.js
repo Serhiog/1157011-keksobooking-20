@@ -26,7 +26,7 @@ var randomArray = function (array) {
 var createAd = function (n) {
   var rect = map.getBoundingClientRect();
   var location = {
-    x: randomInteger(rect.left - pinHeight, rect.width - pinWidth/2),
+    x: randomInteger(rect.left - pinHeight, rect.width - pinWidth / 2),
     y: randomInteger(130, 630),
   };
   return {
@@ -77,9 +77,28 @@ renderPins();
 
 map.classList.remove('map--faded');
 
-
 //Создание карточки предложения
+//Переменные:
+var cardsFixQuantity = 1;
+var cardElement = document.querySelector('#card').content.querySelector('.map__card');
+var placeCards = document.querySelector('.map__filters-container');
 
-var baseCard = ads[0];
-var cardTemplate = document.querySelector('#card').content;
+//Поиск необходимого класса в шаблоне и создание копии
+var copyCards = function () {
+  var fragment = new DocumentFragment();
+  var fillCard = function (cardClass, content) {
+    item.querySelector(cardClass).textContent = content;
+  }
+  for (var i = 0; i < cardsFixQuantity; i++) {
+    var item = cardElement.cloneNode(true);
+    fillCard('.popup__title', ads[i].offer.title);
+    fillCard('.popup__text--price', ads[i].offer.price + ' ₽/ночь');
+    fillCard('.popup__type', ads[i].offer.type);
+    fillCard('.popup__text--capacity', ads[i].offer.rooms + ' комнаты для ' + ads[i].offer.guests + ' гостей');
+    fragment.appendChild(item);
+  }
+  // placeCards.insertAdjacentHTML('beforebegin', fragment); - не работает
+  placeCards.appendChild(fragment);
+};
 
+copyCards();
