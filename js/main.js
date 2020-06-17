@@ -95,7 +95,6 @@ var avatar = cardElement.querySelector('.popup__avatar');
 
 //Функция поиска необходимого класса в шаблоне и внесении данных
 var renderCard = function (ad) {
-  var actualFeatures = ads[ad].offer.features;
   cardElement.querySelector('.popup__title').textContent = ads[ad].offer.title;
   cardElement.querySelector('.popup__text--address').textContent = ads[ad].location.x + ',' + ads[ad].location.y;
   cardElement.querySelector('.popup__text--price').textContent = ads[ad].offer.price + ' ₽/ночь';
@@ -117,10 +116,10 @@ var renderCard = function (ad) {
   };
 
   //Рендерим актуальные features
-  for (var i = 0; i <= actualFeatures.length - 1; i++) {
+  for (var i = 0; i <= ads[ad].offer.features.length - 1; i++) {
     var item = document.createElement('li');
     item.className = 'popup__feature';
-    item.classList.add('popup__feature--' + actualFeatures[i]);
+    item.classList.add('popup__feature--' + ads[ad].offer.features[i]);
     listFeatures.appendChild(item);
   };
 
