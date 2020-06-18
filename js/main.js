@@ -193,9 +193,12 @@ var disableInput = function (control) {
   }
 };
 
-var pinMouseDown = function () {
-
-}
+// Функции для ативного состояния
+var enableInput = function (control) {
+  for (var i = 0; i <= control.length - 1; i++) {
+    control[i].removeAttribute('disabled', 'disabled');
+  }
+};
 
 // Обработчик клика и нажатия клавиши на главный пин в неактивном состоянии
 var pinMap = map.querySelector('.map__pin--main');
@@ -225,10 +228,15 @@ var unActivePage = function () {
 var activePage = function () {
   map.classList.remove('map--faded');
   renderPins();
+  enableInput(selects);
+  enableInput(inputs);
+  enableInput(fieldsets);
 }
 
 // Отображение координат в поле адреса
 var address = document.querySelector('#address');
 pinMap.getBoundingClientRect();
 var pinX = pinMap.getBoundingClientRect().x
+var pinY = pinMap.getBoundingClientRect().y
+address.value = Math.round((pinX) + (pinWidth / 2)) + ',' + Math.round(pinY + pinHeight);
 console.log(address);
