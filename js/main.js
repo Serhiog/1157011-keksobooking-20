@@ -79,10 +79,6 @@ var renderPins = function () {
   mapPins.appendChild(fragment);
 };
 
-renderPins();
-
-map.classList.remove('map--faded');
-
 //Создание карточки предложения
 //Переменные:
 var placeCard = document.querySelector('.map__pins');
@@ -182,4 +178,57 @@ var renderCard = function (ad) {
 renderCard(0);
 
 //Рендерим карточку в необходимом месте в разметке
-placeCard.after(cardElement);
+// placeCard.after(cardElement); ----ВРЕМЕННО ОТКЛЮЧИЛИ СОГЛАСНО ЗАДАНИЮ
+
+// Добавляем события
+// Отключаем инпуты и фиелдсеты
+var selects = document.querySelectorAll('select');
+var inputs = document.querySelectorAll('input');
+var fieldsets = document.querySelectorAll('fieldset');
+
+// Функции для неативного состояния
+var disableInput = function (control) {
+  for (var i = 0; i <= control.length - 1; i++) {
+    control[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+var pinMouseDown = function () {
+
+}
+
+// Обработчик клика и нажатия клавиши на главный пин в неактивном состоянии
+var pinMap = map.querySelector('.map__pin--main');
+
+pinMap.addEventListener('mousedown', function (evt) {
+  if (evt.button == 0) {
+    activePage()
+  }
+});
+
+pinMap.addEventListener('keydown', function (evt) {
+  if (evt.key == 'Enter') {
+    activePage()
+  }
+});
+
+// Сценарий неактивный
+var unActivePage = function () {
+  map.classList.add('map--faded');
+  map.querySelector('.map__filters').classList.add('ad-form--disabled');
+  disableInput(selects);
+  disableInput(inputs);
+  disableInput(fieldsets);
+};
+
+// Сценарий активный
+var activePage = function () {
+  map.classList.remove('map--faded');
+  renderPins();
+}
+
+// Отображение координат в поле адреса
+var address = document.querySelector('#address');
+pinMap.getBoundingClientRect();
+var pinX = pinMap.getBoundingClientRect().x
+console.log(address);
