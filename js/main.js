@@ -117,12 +117,14 @@ var renderCard = function (ad) {
   };
 
   //Рендерим актуальные features
+  var featuresFragmnet = new DocumentFragment();
   for (var i = 0; i < ad.offer.features.length; i++) {
     var item = document.createElement('li');
     item.className = 'popup__feature';
     item.classList.add('popup__feature--' + ad.offer.features[i]);
-    listFeatures.appendChild(item);
+    featuresFragmnet.appendChild(item);
   };
+  listFeatures.appendChild(featuresFragmnet);
 
   //Рендеринг types
   if (ad.offer.type === 'flat') {
