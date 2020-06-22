@@ -7,13 +7,13 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var TIMES = ['12:00', '13:00', '14:00'];
 var ADSCOUNT = 8;
+var PINHEIGHT = 50;
+var PINWIDTH = 70;
 
 //Переменные
 var map = document.querySelector('.map');
 var mapPins = document.querySelector('.map__pins');
 var pinElement = document.querySelector('#pin').content.querySelector('.map__pin');
-var pinHeight = 50;
-var pinWidth = 70;
 
 //Функция случайного числа от min до (max+1)
 function randomInteger(min, max) {
@@ -30,7 +30,7 @@ var randomArray = function (array) {
 var createAd = function (n) {
   var rect = map.getBoundingClientRect();
   var location = {
-    x: randomInteger(rect.left - pinHeight, rect.width - pinWidth / 2),
+    x: randomInteger(rect.left - PINHEIGHT, rect.width - PINWIDTH / 2),
     y: randomInteger(130, 630),
   };
   return {
@@ -70,8 +70,8 @@ var renderPins = function () {
 
   for (var i = 0; i < ads.length; i++) {
     var clonePin = pinElement.cloneNode(true);
-    clonePin.style.left = ads[i].location.x - pinWidth / 2 + 'px';
-    clonePin.style.top = ads[i].location.y - pinHeight + 'px';
+    clonePin.style.left = ads[i].location.x - PINWIDTH / 2 + 'px';
+    clonePin.style.top = ads[i].location.y - PINHEIGHT + 'px';
     clonePin.querySelector('img').src = ads[i].author.avatar;
     clonePin.querySelector('img').alt = ads[i].author.title;
     fragment.appendChild(clonePin);
@@ -185,65 +185,132 @@ var renderCard = function (ad) {
 renderCard(ads[0]);
 
 //Рендерим карточку в необходимом месте в разметке
-placeCard.after(card)
+// placeCard.after(card) ---- ВРЕМЕННО ОТКЛЮЧАЕМ ПОКАЗ КАРТОЧКИ
 
-// // Добавляем события
-// // Отключаем инпуты и фиелдсеты
-// var selects = document.querySelectorAll('select');
-// var inputs = document.querySelectorAll('input');
-// var fieldsets = document.querySelectorAll('fieldset');
+// Добавляем события
 
-// // Функции для неативного состояния
-// var disableInput = function (control) {
-//   for (var i = 0; i <= control.length - 1; i++) {
-//     control[i].setAttribute('disabled', 'disabled');
-//   }
-// };
+// Переменные
+var selects = document.querySelectorAll('select');
+var inputs = document.querySelectorAll('input');
+var fieldSets = document.querySelectorAll('fieldset');
+var pinMap = map.querySelector('.map__pin--main');
+var address = document.querySelector('#address');
+var pinX = parseInt(pinMap.style.left);
+var pinY = parseInt(pinMap.style.top);
+var numberOfRooms = document.querySelector('#room_number');
+var rooms = numberOfRooms.querySelectorAll('option');
+var numberOfGuests = document.querySelector('#capacity');
+var guests = numberOfGuests.querySelectorAll('option');
 
-// // Функции для ативного состояния
-// var enableInput = function (control) {
-//   for (var i = 0; i <= control.length - 1; i++) {
-//     control[i].removeAttribute('disabled', 'disabled');
-//   }
-// };
+// Функция отключения инпутов и фиелдсетов по умолчанию в неактивном состоянии страницы
+var turnOfControls = function () {
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].setAttribute('disabled', 'disabled');
+  };
+  for (var j = 0; j < inputs.length; j++) {
+    inputs[j].setAttribute('disabled', 'disabled');
+  };
+  for (var n = 0; n < fieldSets.length; n++) {
+    fieldSets[n].setAttribute('disabled', 'disabled');
+  };
+};
 
-// // Обработчик клика и нажатия клавиши на главный пин в неактивном состоянии
-// var pinMap = map.querySelector('.map__pin--main');
+// Функция включения контролов для активного состояния траницы
+var turnOnControls = function () {
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].removeAttribute('disabled');
+  };
+  for (var j = 0; j < inputs.length; j++) {
+    inputs[j].removeAttribute('disabled');
+  };
+  for (var n = 0; n < fieldSets.length; n++) {
+    fieldSets[n].removeAttribute('disabled');
+  };
+};
 
-// pinMap.addEventListener('mousedown', function (evt) {
-//   if (evt.button == 0) {
-//     activePage()
-//   }
-// });
+// Обработчик клика и нажатия клавиши Enter на главный пин в неактивном состоянии
+pinMap.addEventListener('mousedown', function (evt) {
+  if (evt.button == 0) {
+    activePage()
+  };
+});
 
-// pinMap.addEventListener('keydown', function (evt) {
-//   if (evt.key == 'Enter') {
-//     activePage()
-//   }
-// });
+pinMap.addEventListener('keydown', function (evt) {
+  if (evt.key == 'Enter') {
+    activePage();
+  };
+});
 
-// // Сценарий неактивный
-// var unActivePage = function () {
-//   map.classList.add('map--faded');
-//   map.querySelector('.map__filters').classList.add('ad-form--disabled');
-//   disableInput(selects);
-//   disableInput(inputs);
-//   disableInput(fieldsets);
-// };
 
-// // Сценарий активный
-// var activePage = function () {
-map.classList.remove('map--faded');
-renderPins();
-//   enableInput(selects);
-//   enableInput(inputs);
-//   enableInput(fieldsets);
-// }
+// Функция определения main pin на карте и указание координат в поле адреса
+var locatePin = function (top) {
+  address.value = Math.round(pinX + (PINWIDTH / 2)) + ',' + Math.round(pinY + top);
+}
 
-// // Отображение координат в поле адреса
-// var address = document.querySelector('#address');
-// pinMap.getBoundingClientRect();
-// var pinX = pinMap.getBoundingClientRect().x
-// var pinY = pinMap.getBoundingClientRect().y
-// address.value = Math.round((pinX) + (pinWidth / 2)) + ',' + Math.round(pinY + pinHeight);
-// console.log(address);
+// Внесение в адрес координат метки для обоих состояний
+locatePin((PINHEIGHT / 2));
+
+// Отключение контролов для неактивного состояния
+turnOfControls();
+
+// Сценарий неактивный
+var unActivePage = function () {
+  map.classList.add('map--faded');
+  map.querySelector('.map__filters').classList.add('ad-form--disabled');
+  turnOfControls('disabled', 'disabled');
+};
+
+// Сценарий активный
+var activePage = function () {
+  map.classList.remove('map--faded');
+  renderPins();
+  locatePin((PINHEIGHT));
+  turnOnControls();
+};
+
+// Валидация числа комнат и количества гостей
+// Отключаем выбор количества гостей до выбора количества комнат для логичного сценария
+for (var i = 0; i < guests.length; i++) {
+  guests[i].setAttribute('disabled', 'disabled');
+};
+
+// Функция для сброса заблокированных значений количества гостей
+var clearGuests = function () {
+  for (var i = 0; i < guests.length; i++) {
+    guests[i].removeAttribute('disabled')
+  };
+};
+
+// Функция блокировки выбора количества гостей
+var deactiveGuests = function (number) {
+  guests[number].setAttribute('disabled', 'disabled');
+};
+
+// Обработчик для контролов гостей-комнат
+numberOfRooms.addEventListener('input', function () {
+  if (numberOfRooms.value === '1') {
+    clearGuests();
+    deactiveGuests(0)
+    deactiveGuests(1)
+    deactiveGuests(3)
+  };
+  if (numberOfRooms.value === '2') {
+    clearGuests();
+    deactiveGuests(0)
+    deactiveGuests(3)
+  };
+  if (numberOfRooms.value === '3') {
+    clearGuests();
+    deactiveGuests(3)
+  };
+  if (numberOfRooms.value === '100') {
+    clearGuests();
+    deactiveGuests(0)
+    deactiveGuests(1)
+    deactiveGuests(2)
+  }
+});
+
+
+
+
