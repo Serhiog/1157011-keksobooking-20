@@ -14,6 +14,7 @@ var PINWIDTH = 70;
 var map = document.querySelector('.map');
 var mapPins = document.querySelector('.map__pins');
 var pinElement = document.querySelector('#pin').content.querySelector('.map__pin');
+var adForm = document.querySelectorAll('.ad-form');
 
 //Функция случайного числа от min до (max+1)
 function randomInteger(min, max) {
@@ -182,7 +183,7 @@ var renderCard = function (ad) {
 };
 
 //Запускаем функцию с указанием в качестве аргумента необходимой карточки
-renderCard(ads[0]);
+// renderCard(ads[0]);
 
 //Рендерим карточку в необходимом месте в разметке
 // placeCard.after(card) ---- ВРЕМЕННО ОТКЛЮЧАЕМ ПОКАЗ КАРТОЧКИ
@@ -256,7 +257,6 @@ turnOfControls();
 // Сценарий неактивный
 var unActivePage = function () {
   map.classList.add('map--faded');
-  map.querySelector('.map__filters').classList.add('ad-form--disabled');
   turnOfControls('disabled', 'disabled');
 };
 
@@ -266,7 +266,49 @@ var activePage = function () {
   renderPins();
   locatePin((PINHEIGHT));
   turnOnControls();
-};
+  document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+  activeForm()
+
+  // Рендерим любую карточку
+  var pins = document.querySelectorAll('.map__pin:not(map__pin--main)')
+  var newArray = [];
+  for (var i = 1; i < pins.length; i++) {
+    pins[i].setAttribute('tabindex', '0')
+    newArray.push(pins[i])
+  }
+  mapPins.addEventListener('click', function (evt) {
+    console.log(newArray.indexOf(evt.target.parentNode))
+    var indexPin = newArray.indexOf(evt.target.parentNode)
+    if (indexPin >= 0) {
+      renderCard(ads[indexPin]);
+      placeCard.after(card);
+      card.classList.remove('hidden');
+    }
+    return indexPin
+  })
+
+  console.log(pins);
+  for (var i = 1; i < pins.length; i++) {
+    pins[i].addEventListener('keydown', function (evt) {
+      if (evt.keyCode === 13) {
+        renderCard(ads[0]);
+        placeCard.after(card);
+        card.classList.remove('hidden');
+      }
+    })
+  }
+
+
+}
+// Закрытие карточки
+var cardClose = card.querySelector('.popup__close');
+cardClose.addEventListener('click', function () {
+  card.classList.add('hidden')
+})
+
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 27) { card.classList.add('hidden') }
+})
 
 // Валидация числа комнат и количества гостей
 // Отключаем выбор количества гостей до выбора количества комнат для логичного сценария
@@ -311,6 +353,49 @@ numberOfRooms.addEventListener('input', function () {
   }
 });
 
+//Валидация инпутов подачи объявления
+var activeForm = function () {
+  var type = document.querySelector('#type')
+  var price = document.querySelector('#price')
+  type.addEventListener('change', function () {
+    if (type.value === 'flat') {
+      price.setAttribute('min', '1000')
+    }
+    if (type.value === 'bungalo') {
+      price.setAttribute('min', '0')
+    }
+    if (type.value === 'house') {
+      price.setAttribute('min', '5000')
+    }
+    if (type.value === 'palace') {
+      price.setAttribute('min', '10000')
+    }
+  })
+  address.setAttribute('disabled', 'disabled')
+}
 
+var timeIn = document.querySelector('#timein')
+var timeOut = document.querySelector('#timeout')
 
-
+timeIn.addEventListener('change', function () {
+  if (timeIn.value === '12:00') {
+    timeOut.value = '12:00'
+  }
+  if (timeIn.value === '13:00') {
+    timeOut.value = '13:00'
+  }
+  if (timeIn.value === '14:00') {
+    timeOut.value = '14:00'
+  }
+})
+timeOut.addEventListener('change', function () {
+  if (timeOut.value === '12:00') {
+    timeIn.value = '12:00'
+  }
+  if (timeOut.value === '13:00') {
+    timeIn.value = '13:00'
+  }
+  if (timeOut.value === '14:00') {
+    timeIn.value = '14:00'
+  }
+})
