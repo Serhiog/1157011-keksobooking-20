@@ -105,9 +105,13 @@ var renderCard = function (ad) {
   for (var i = 0; i < ad.offer.photos.length; i++) {
     var clonePhoto = photosList.querySelector('.popup__photo').cloneNode(true);
     clonePhoto.src = ad.offer.photos[i];
+
     photosFragment.appendChild(clonePhoto);
   };
-  photosList.firstElementChild.remove();
+  while (photosList.firstChild) {
+    photosList.removeChild(photosList.firstChild)
+  };
+
   photosList.appendChild(photosFragment);
 
 
@@ -180,16 +184,11 @@ var renderCard = function (ad) {
       card.querySelector('.popup__avatar').style.display = 'none'
     };
   };
+  placeCard.after(card);
+  card.classList.remove('hidden');
 };
 
-//Запускаем функцию с указанием в качестве аргумента необходимой карточки
-// renderCard(ads[0]);
-
-//Рендерим карточку в необходимом месте в разметке
-// placeCard.after(card) ---- ВРЕМЕННО ОТКЛЮЧАЕМ ПОКАЗ КАРТОЧКИ
-
 // Добавляем события
-
 // Переменные
 var selects = document.querySelectorAll('select');
 var inputs = document.querySelectorAll('input');
@@ -198,23 +197,6 @@ var pinMap = map.querySelector('.map__pin--main');
 var address = document.querySelector('#address');
 var pinX = parseInt(pinMap.style.left);
 var pinY = parseInt(pinMap.style.top);
-var numberOfRooms = document.querySelector('#room_number');
-var rooms = numberOfRooms.querySelectorAll('option');
-var numberOfGuests = document.querySelector('#capacity');
-var guests = numberOfGuests.querySelectorAll('option');
-
-// Функция отключения инпутов и фиелдсетов по умолчанию в неактивном состоянии страницы
-var turnOfControls = function () {
-  for (var i = 0; i < selects.length; i++) {
-    selects[i].setAttribute('disabled', 'disabled');
-  };
-  for (var j = 0; j < inputs.length; j++) {
-    inputs[j].setAttribute('disabled', 'disabled');
-  };
-  for (var n = 0; n < fieldSets.length; n++) {
-    fieldSets[n].setAttribute('disabled', 'disabled');
-  };
-};
 
 // Функция включения контролов для активного состояния траницы
 var turnOnControls = function () {
@@ -229,19 +211,31 @@ var turnOnControls = function () {
   };
 };
 
-// Обработчик клика и нажатия клавиши Enter на главный пин в неактивном состоянии
-pinMap.addEventListener('mousedown', function (evt) {
-  if (evt.button == 0) {
-    activePage()
+// Функция выключения контролов для активного состояния траницы
+var turnOfControls = function () {
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].setAttribute('disabled', 'disabled');
   };
-});
+  for (var j = 0; j < inputs.length; j++) {
+    inputs[j].setAttribute('disabled', 'disabled');
+  };
+  for (var n = 0; n < fieldSets.length; n++) {
+    fieldSets[n].setAttribute('disabled', 'disabled');
+  };
+};
 
-pinMap.addEventListener('keydown', function (evt) {
-  if (evt.key == 'Enter') {
+// Обработчик клика и нажатия клавиши Enter на главный пин в неактивном состоянии
+pinMap.addEventListener('click', function (evt) {
+  if (evt.button === 0) {
     activePage();
   };
 });
 
+pinMap.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    activePage();
+  };
+});
 
 // Функция определения main pin на карте и указание координат в поле адреса
 var locatePin = function (top) {
@@ -261,141 +255,81 @@ var unActivePage = function () {
 };
 
 // Сценарий активный
+var isActive = false;
 var activePage = function () {
   map.classList.remove('map--faded');
-  renderPins();
+  if (!isActive) {
+    renderPins();
+    isActive = true;
+  }
   locatePin((PINHEIGHT));
   turnOnControls();
   document.querySelector('.ad-form').classList.remove('ad-form--disabled');
-  activeForm()
+  activeForm();
+  numberOfRooms.addEventListener('change', capacityCheck);
+  numberOfGuests.addEventListener('change', capacityCheck);
+  capacityCheck();
 
   // Рендерим любую карточку
   var pins = document.querySelectorAll('.map__pin:not(map__pin--main)')
-  var newArray = [];
-  for (var i = 1; i < pins.length; i++) {
-    pins[i].setAttribute('tabindex', '0')
-    newArray.push(pins[i])
-  }
-  mapPins.addEventListener('click', function (evt) {
-    console.log(newArray.indexOf(evt.target.parentNode))
-    var indexPin = newArray.indexOf(evt.target.parentNode)
-    if (indexPin >= 0) {
-      renderCard(ads[indexPin]);
-      placeCard.after(card);
-      card.classList.remove('hidden');
-    }
-    return indexPin
-  })
-
-  console.log(pins);
-  for (var i = 1; i < pins.length; i++) {
-    pins[i].addEventListener('keydown', function (evt) {
-      if (evt.keyCode === 13) {
-        renderCard(ads[0]);
-        placeCard.after(card);
-        card.classList.remove('hidden');
-      }
-    })
-  }
-
-
-}
+  pins.forEach(element => {
+    element.addEventListener('click', function (evt) {
+      var indexPin = [].slice.call(pins).indexOf(element);
+      renderCard(ads[indexPin - 1]);
+    });
+  });
+};
 // Закрытие карточки
 var cardClose = card.querySelector('.popup__close');
 cardClose.addEventListener('click', function () {
-  card.classList.add('hidden')
-})
+  card.classList.add('hidden');
+});
 
 document.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 27) { card.classList.add('hidden') }
-})
-
-// Валидация числа комнат и количества гостей
-// Отключаем выбор количества гостей до выбора количества комнат для логичного сценария
-for (var i = 0; i < guests.length; i++) {
-  guests[i].setAttribute('disabled', 'disabled');
-};
-
-// Функция для сброса заблокированных значений количества гостей
-var clearGuests = function () {
-  for (var i = 0; i < guests.length; i++) {
-    guests[i].removeAttribute('disabled')
-  };
-};
-
-// Функция блокировки выбора количества гостей
-var deactiveGuests = function (number) {
-  guests[number].setAttribute('disabled', 'disabled');
-};
-
-// Обработчик для контролов гостей-комнат
-numberOfRooms.addEventListener('input', function () {
-  if (numberOfRooms.value === '1') {
-    clearGuests();
-    deactiveGuests(0)
-    deactiveGuests(1)
-    deactiveGuests(3)
-  };
-  if (numberOfRooms.value === '2') {
-    clearGuests();
-    deactiveGuests(0)
-    deactiveGuests(3)
-  };
-  if (numberOfRooms.value === '3') {
-    clearGuests();
-    deactiveGuests(3)
-  };
-  if (numberOfRooms.value === '100') {
-    clearGuests();
-    deactiveGuests(0)
-    deactiveGuests(1)
-    deactiveGuests(2)
+  if (evt.keyCode === 27) {
+    card.classList.add('hidden')
   }
 });
 
+// Валидация числа комнат и количества гостей
+var numberOfRooms = document.querySelector('#room_number');
+var numberOfGuests = document.querySelector('#capacity');
+var rooms = numberOfRooms.querySelectorAll('option');
+var guests = numberOfGuests.querySelectorAll('option');
+
+var capacityCheck = function () {
+  if (numberOfRooms.value === '100' && numberOfGuests.value !== '0') {
+    numberOfGuests.setCustomValidity('Не для гостей');
+  } else if (numberOfGuests.value === '0' && numberOfRooms.value !== '100') {
+    numberOfRooms.setCustomValidity('Выберите 100 комнат');
+  } else if (numberOfRooms.value < numberOfGuests.value) {
+    numberOfGuests.setCustomValidity('Не больше ' + numberOfRooms.value + ' гостей');
+  }
+  else {
+    numberOfGuests.setCustomValidity('');
+    numberOfRooms.setCustomValidity('');
+  }
+};
+
 //Валидация инпутов подачи объявления
 var activeForm = function () {
-  var type = document.querySelector('#type')
+  var type = document.querySelector('#type');
   var price = document.querySelector('#price')
-  type.addEventListener('change', function () {
-    if (type.value === 'flat') {
-      price.setAttribute('min', '1000')
-    }
-    if (type.value === 'bungalo') {
-      price.setAttribute('min', '0')
-    }
-    if (type.value === 'house') {
-      price.setAttribute('min', '5000')
-    }
-    if (type.value === 'palace') {
-      price.setAttribute('min', '10000')
-    }
-  })
-  address.setAttribute('disabled', 'disabled')
-}
+  address.setAttribute('disabled', 'disabled');
 
-var timeIn = document.querySelector('#timein')
-var timeOut = document.querySelector('#timeout')
+  // Сводный объект
+  var typeRelation = { flat: 1000, bungalo: 0, house: 5000, palace: 10000 };
+  type.addEventListener('change', function () {
+    price.setAttribute('min', typeRelation[type.value])
+  })
+};
+
+var timeIn = document.querySelector('#timein');
+var timeOut = document.querySelector('#timeout');
 
 timeIn.addEventListener('change', function () {
-  if (timeIn.value === '12:00') {
-    timeOut.value = '12:00'
-  }
-  if (timeIn.value === '13:00') {
-    timeOut.value = '13:00'
-  }
-  if (timeIn.value === '14:00') {
-    timeOut.value = '14:00'
-  }
-})
+  timeOut.value = timeIn.value;
+});
 timeOut.addEventListener('change', function () {
-  if (timeOut.value === '12:00') {
-    timeIn.value = '12:00'
-  }
-  if (timeOut.value === '13:00') {
-    timeIn.value = '13:00'
-  }
-  if (timeOut.value === '14:00') {
-    timeIn.value = '14:00'
-  }
-})
+  timeIn.value = timeOut.value;
+});
