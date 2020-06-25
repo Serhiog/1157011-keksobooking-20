@@ -317,10 +317,11 @@ var activeForm = function () {
   var price = document.querySelector('#price')
   address.setAttribute('disabled', 'disabled');
 
-  // Сводный объект
+  // Валидация стоимости квартир и placeholder
   var typeRelation = { flat: 1000, bungalo: 0, house: 5000, palace: 10000 };
   type.addEventListener('change', function () {
     price.setAttribute('min', typeRelation[type.value])
+    price.setAttribute('placeholder', typeRelation[type.value])
   })
 };
 
