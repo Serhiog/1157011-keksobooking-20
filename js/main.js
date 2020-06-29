@@ -271,11 +271,11 @@ var activePage = function () {
   capacityCheck();
 
   // Рендерим любую карточку
-  var pins = document.querySelectorAll('.map__pin:not(map__pin--main)')
+  var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)')
   pins.forEach(element => {
     element.addEventListener('click', function (evt) {
       var indexPin = [].slice.call(pins).indexOf(element);
-      renderCard(ads[indexPin - 1]);
+      renderCard(ads[indexPin]);
     });
   });
 };
@@ -321,6 +321,7 @@ var activeForm = function () {
   var typeRelation = { flat: 1000, bungalo: 0, house: 5000, palace: 10000 };
   type.addEventListener('change', function () {
     price.setAttribute('min', typeRelation[type.value])
+    price.setAttribute('placeholder', typeRelation[type.value])
   })
 };
 
