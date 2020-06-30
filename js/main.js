@@ -71,8 +71,10 @@ var renderPins = function () {
 
   for (var i = 0; i < ads.length; i++) {
     var clonePin = pinElement.cloneNode(true);
+    
     clonePin.style.left = ads[i].location.x - PINWIDTH / 2 + 'px';
     clonePin.style.top = ads[i].location.y - PINHEIGHT + 'px';
+
     clonePin.querySelector('img').src = ads[i].author.avatar;
     clonePin.querySelector('img').alt = ads[i].author.title;
     fragment.appendChild(clonePin);
@@ -105,12 +107,16 @@ var renderCard = function (ad) {
   for (var i = 0; i < ad.offer.photos.length; i++) {
     var clonePhoto = photosList.querySelector('.popup__photo').cloneNode(true);
     clonePhoto.src = ad.offer.photos[i];
-
     photosFragment.appendChild(clonePhoto);
   };
+  
   while (photosList.firstChild) {
     photosList.removeChild(photosList.firstChild)
+
   };
+  photosList.firstElementChild.remove();
+  photosList.appendChild(photosFragment);
+
 
   photosList.appendChild(photosFragment);
 
@@ -323,6 +329,73 @@ var activeForm = function () {
     price.setAttribute('min', typeRelation[type.value])
   })
 };
+
+//Запускаем функцию с указанием в качестве аргумента необходимой карточки
+renderCard(ads[0]);
+
+//Рендерим карточку в необходимом месте в разметке
+// placeCard.after(card) ---- ВРЕМЕННО ОТКЛЮЧАЕМ ПОКАЗ КАРТОЧКИ
+
+// Добавляем события
+// Отключаем инпуты и фиелдсеты
+var selects = document.querySelectorAll('select');
+var inputs = document.querySelectorAll('input');
+var fieldsets = document.querySelectorAll('fieldset');
+
+// Функции для неативного состояния
+var disableInput = function (control) {
+  for (var i = 0; i <= control.length - 1; i++) {
+    control[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+// Функции для ативного состояния
+var enableInput = function (control) {
+  for (var i = 0; i <= control.length - 1; i++) {
+    control[i].removeAttribute('disabled', 'disabled');
+  }
+};
+
+// Обработчик клика и нажатия клавиши на главный пин в неактивном состоянии
+var pinMap = map.querySelector('.map__pin--main');
+
+pinMap.addEventListener('mousedown', function (evt) {
+  if (evt.button == 0) {
+    activePage()
+  }
+});
+
+pinMap.addEventListener('keydown', function (evt) {
+  if (evt.key == 'Enter') {
+    activePage()
+  }
+});
+
+// Сценарий неактивный
+var unActivePage = function () {
+  map.classList.add('map--faded');
+  map.querySelector('.map__filters').classList.add('ad-form--disabled');
+  disableInput(selects);
+  disableInput(inputs);
+  disableInput(fieldsets);
+};
+
+// Сценарий активный
+var activePage = function () {
+  map.classList.remove('map--faded');
+  renderPins();
+  enableInput(selects);
+  enableInput(inputs);
+  enableInput(fieldsets);
+}
+
+// Отображение координат в поле адреса
+var address = document.querySelector('#address');
+pinMap.getBoundingClientRect();
+var pinX = pinMap.getBoundingClientRect().x
+var pinY = pinMap.getBoundingClientRect().y
+address.value = Math.round((pinX) + (pinWidth / 2)) + ',' + Math.round(pinY + pinHeight);
+console.log(address);
 
 var timeIn = document.querySelector('#timein');
 var timeOut = document.querySelector('#timeout');
