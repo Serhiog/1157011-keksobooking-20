@@ -27,6 +27,7 @@
         fragment.appendChild(clonePin);
       }
       mapPins.appendChild(fragment);
-    }
+    },
+    mapPins: document.querySelector('.map__pins')
   };
 })();
