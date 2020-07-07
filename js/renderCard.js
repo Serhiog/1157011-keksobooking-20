@@ -72,40 +72,43 @@
       avatar.src = ad.author.avatar;
 
       // Скрытие блоков при отсутствии контента
-      for (var i = 0; i <= ad.length - 1; i++) {
-        if (ad.offer.title) {
-          card.querySelector('.popup__title').style.display = 'none'
-        };
-        if (ad.offer.price) {
-          card.querySelector('.popup__text--price').style.display = 'none'
-        };
-        if (ad.offer.rooms) {
-          card.querySelector('.popup__text--capacity').style.display = 'none'
-        };
-        if (ad.offer.checkin || !ad.offer.checkout) {
-          card.querySelector('.popup__text--time').style.display = 'none'
-        };
-        if (ad.offer.description) {
-          card.querySelector('.popup__description').style.display = 'none'
-        };
-        if (ad.location) {
-          card.querySelector('.popup__text--address').style.display = 'none'
-        };
-        if (ad.offer.type) {
-          card.querySelector('.popup__type').style.display = 'none'
-        };
-        if (ad.offer.rooms || ad.offer.guests) {
-          card.querySelector('.popup__text--capacity').style.display = 'none'
-        };
-        if (ad.offer.features) {
-          card.querySelector('.popup__features').style.display = 'none'
-        };
-        if (ad.offer.photos) {
-          card.querySelector('.popup__photos').style.display = 'none'
-        };
-        if (ad.author.avatar) {
-          card.querySelector('.popup__avatar').style.display = 'none'
-        };
+      for (var i = 0; i < ad.length - 1; i++) {
+        // if (ad.offer.title) {
+        //   card.querySelector('.popup__title').style.display = 'none'
+        // };
+        // if (ad.offer.price) {
+        //   card.querySelector('.popup__text--price').style.display = 'none'
+        // };
+        // if (ad.offer.rooms) {
+        //   card.querySelector('.popup__text--capacity').style.display = 'none'
+        // };
+        // if (ad.offer.checkin || !ad.offer.checkout) {
+        //   card.querySelector('.popup__text--time').style.display = 'none'
+        // };
+        // if (ad.offer.description) {
+        //   card.querySelector('.popup__description').style.display = 'none'
+        // };
+        // if (ad.location) {
+        //   card.querySelector('.popup__text--address').style.display = 'none'
+        // };
+        // if (ad.offer.type) {
+        //   card.querySelector('.popup__type').style.display = 'none'
+        // };
+        // if (ad.offer.rooms || ad.offer.guests) {
+        //   card.querySelector('.popup__text--capacity').style.display = 'none'
+        // };
+        // if (ad.offer.features) {
+        //   card.querySelector('.popup__features').style.display = 'none'
+        // };
+        // if (ad.offer.photos) {
+        //   card.querySelector('.popup__photos').style.display = 'none'
+        // };
+        // if (ad.author.avatar) {
+        //   card.querySelector('.popup__avatar').style.display = 'none'
+        // };
+        if (ad.offer.title === 'Небольшая лавочка в парке') {
+          card.classList.add('hidden');
+        }
       };
       placeCard.after(card);
       card.classList.remove('hidden');

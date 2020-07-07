@@ -23,7 +23,7 @@
         var pinElement = document.querySelector('#pin').content.querySelector('.map__pin');
         var fragment = new DocumentFragment();
 
-        for (var i = 0; i < response.length - 1; i++) {
+        for (var i = 0; i < response.length; i++) {
           var clonePin = pinElement.cloneNode(true);
           clonePin.style.left = response[i].location.x - window.mainPin.PINWIDTH / 2 + 'px';
           clonePin.style.top = response[i].location.y - window.mainPin.PINHEIGHT + 'px';
@@ -35,20 +35,22 @@
         mapPins.appendChild(fragment);
 
         console.log(response[i])
-
         var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)')
-        console.log(pins)
 
-        var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)')
         pins.forEach(element => {
           element.addEventListener('click', function () {
             console.log('testClick')
             var indexPin = [].slice.call(pins).indexOf(element);
+            console.log(response[indexPin])
             window.renderCard.renderCard(window.renderCard.renderCard(response[indexPin]));
+
           })
 
         })
-
+        if (response[i].offer.photos.length = 0) {
+          card.classList.add('hidden');
+          console.log('errortext')
+        }
       };
 
       var onError = function (errortext) {
@@ -56,17 +58,6 @@
       }
 
       window.backend.get(onSucces, onError)
-
-
-      // var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)')
-      // pins.forEach(element => {
-      //   element.addEventListener('click', function () {
-      //     console.log('test')
-      // var indexPin = [].slice.call(pins).indexOf(element);
-      // window.renderCard.renderCard(window.renderCard.renderCard()[indexPin]);
-      //   });
-
-      // });
     }
   };
 })();

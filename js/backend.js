@@ -2,7 +2,7 @@
 
 (function () {
   var GETURL = 'https://javascript.pages.academy/keksobooking/data';
-  var SUCCESSSTATUS = 200;
+  var successCode = 200;
 
   window.backend = {
 
@@ -10,18 +10,14 @@
       var xhr = new XMLHttpRequest();
 
       xhr.addEventListener('load', function () {
-        if (xhr.status === SUCCESSSTATUS) {
-          onSucces(xhr.response)
+        if (xhr.status === successCode) {
+          onSucces(xhr.response);
         } else {
           onError('Произошла ошибка: ' + xhr.status + ' ' + xhr.statusText)
         }
       });
 
       xhr.responseType = 'json'
-      xhr.open('GET', GETURL);
-
-
-      xhr.setTimeOut = 10000;
 
       xhr.addEventListener('error', function () {
         'Ошибка соединения'
@@ -31,6 +27,8 @@
         'Не удалось загрузить данные за ' + xhr.timeout + ' секунд'
       })
 
+      xhr.setTimeOut = 10000;
+      xhr.open('GET', GETURL);
       xhr.send();
     }
   };
