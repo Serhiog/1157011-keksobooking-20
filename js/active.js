@@ -37,12 +37,18 @@
         console.log(response[i])
 
         var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)')
-        for (var i = 0; i < pins.length; i++) {
-          pins[i].addEventListener('click', function () {
-            window.renderCard.renderCard(response[i])
+        console.log(pins)
+
+        var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)')
+        pins.forEach(element => {
+          element.addEventListener('click', function () {
+            console.log('testClick')
+            var indexPin = [].slice.call(pins).indexOf(element);
+            window.renderCard.renderCard(window.renderCard.renderCard(response[indexPin]));
           })
 
-        }
+        })
+
       };
 
       var onError = function (errortext) {

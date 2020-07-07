@@ -24,7 +24,7 @@
 
       // Рендерим фотографии объявления
       var photosFragment = new DocumentFragment();
-      for (var i = 0; i < ad.offer.photos.length + 1; i++) {
+      for (var i = 0; i < ad.offer.photos.length; i++) {
         var clonePhoto = photosList.querySelector('.popup__photo').cloneNode(true);
         clonePhoto.src = ad.offer.photos[i];
 
@@ -51,7 +51,7 @@
         item.classList.add('popup__feature--' + ad.offer.features[i]);
         featuresFragmnet.appendChild(item);
       };
-      
+
       listFeatures.appendChild(featuresFragmnet);
 
       //Рендеринг types
