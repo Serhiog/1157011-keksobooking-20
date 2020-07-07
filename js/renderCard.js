@@ -24,7 +24,7 @@
 
       // Рендерим фотографии объявления
       var photosFragment = new DocumentFragment();
-      for (var i = 0; i < ad.offer.photos.length; i++) {
+      for (var i = 0; i < ad.offer.photos.length + 1; i++) {
         var clonePhoto = photosList.querySelector('.popup__photo').cloneNode(true);
         clonePhoto.src = ad.offer.photos[i];
 
@@ -51,6 +51,7 @@
         item.classList.add('popup__feature--' + ad.offer.features[i]);
         featuresFragmnet.appendChild(item);
       };
+      
       listFeatures.appendChild(featuresFragmnet);
 
       //Рендеринг types
@@ -71,43 +72,44 @@
       avatar.src = ad.author.avatar;
 
       // Скрытие блоков при отсутствии контента
-      for (var i = 0; i <= window.renderPins.createAds().length - 1; i++) {
-        if (!window.renderPins.createAds()[i].offer.title) {
+      for (var i = 0; i <= ad.length - 1; i++) {
+        if (ad.offer.title) {
           card.querySelector('.popup__title').style.display = 'none'
         };
-        if (!window.renderPins.createAds()[i].offer.price) {
+        if (ad.offer.price) {
           card.querySelector('.popup__text--price').style.display = 'none'
         };
-        if (!window.renderPins.createAds()[i].offer.rooms) {
+        if (ad.offer.rooms) {
           card.querySelector('.popup__text--capacity').style.display = 'none'
         };
-        if (!window.renderPins.createAds()[i].offer.checkin || !ad.offer.checkout) {
+        if (ad.offer.checkin || !ad.offer.checkout) {
           card.querySelector('.popup__text--time').style.display = 'none'
         };
-        if (!window.renderPins.createAds()[i].offer.description) {
+        if (ad.offer.description) {
           card.querySelector('.popup__description').style.display = 'none'
         };
-        if (!window.renderPins.createAds()[i].location) {
+        if (ad.location) {
           card.querySelector('.popup__text--address').style.display = 'none'
         };
-        if (!window.renderPins.createAds()[i].offer.type) {
+        if (ad.offer.type) {
           card.querySelector('.popup__type').style.display = 'none'
         };
-        if (!window.renderPins.createAds()[i].offer.rooms || !window.renderPins.createAds()[i].offer.guests) {
+        if (ad.offer.rooms || ad.offer.guests) {
           card.querySelector('.popup__text--capacity').style.display = 'none'
         };
-        if (!window.renderPins.createAds()[i].offer.features) {
+        if (ad.offer.features) {
           card.querySelector('.popup__features').style.display = 'none'
         };
-        if (!window.renderPins.createAds()[i].offer.photos) {
+        if (ad.offer.photos) {
           card.querySelector('.popup__photos').style.display = 'none'
         };
-        if (!window.renderPins.createAds()[i].author.avatar) {
+        if (ad.author.avatar) {
           card.querySelector('.popup__avatar').style.display = 'none'
         };
       };
       placeCard.after(card);
       card.classList.remove('hidden');
     }
+
   };
 })();
