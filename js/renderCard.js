@@ -23,13 +23,24 @@
       card.querySelector('.popup__description').textContent = ad.offer.description;
 
       // Рендерим фотографии объявления
+
+      if (!photosList.hasChildNodes()) {
+        let newPhoto = document.createElement("img");
+        newPhoto.classList.add('popup__photo')
+        newPhoto.setAttribute('width', '45')
+        newPhoto.setAttribute('height', '40')
+        newPhoto.setAttribute('alt', 'Фотография жилья')
+        photosList.appendChild(newPhoto)
+      }
+
       var photosFragment = new DocumentFragment();
       for (var i = 0; i < ad.offer.photos.length; i++) {
+
         var clonePhoto = photosList.querySelector('.popup__photo').cloneNode(true);
         clonePhoto.src = ad.offer.photos[i];
-
         photosFragment.appendChild(clonePhoto);
       };
+
       while (photosList.firstChild) {
         photosList.removeChild(photosList.firstChild)
       };
@@ -44,15 +55,16 @@
       };
 
       //Рендерим актуальные features
-      var featuresFragmnet = new DocumentFragment();
+      var featuresFragment = new DocumentFragment();
       for (var i = 0; i < ad.offer.features.length; i++) {
         var item = document.createElement('li');
         item.className = 'popup__feature';
         item.classList.add('popup__feature--' + ad.offer.features[i]);
-        featuresFragmnet.appendChild(item);
+        featuresFragment.appendChild(item);
       };
 
-      listFeatures.appendChild(featuresFragmnet);
+      listFeatures.appendChild(featuresFragment);
+
 
       //Рендеринг types
       if (ad.offer.type === 'flat') {
@@ -72,44 +84,26 @@
       avatar.src = ad.author.avatar;
 
       // Скрытие блоков при отсутствии контента
-      for (var i = 0; i < ad.length - 1; i++) {
-        // if (ad.offer.title) {
-        //   card.querySelector('.popup__title').style.display = 'none'
-        // };
-        // if (ad.offer.price) {
-        //   card.querySelector('.popup__text--price').style.display = 'none'
-        // };
-        // if (ad.offer.rooms) {
-        //   card.querySelector('.popup__text--capacity').style.display = 'none'
-        // };
-        // if (ad.offer.checkin || !ad.offer.checkout) {
-        //   card.querySelector('.popup__text--time').style.display = 'none'
-        // };
-        // if (ad.offer.description) {
-        //   card.querySelector('.popup__description').style.display = 'none'
-        // };
-        // if (ad.location) {
-        //   card.querySelector('.popup__text--address').style.display = 'none'
-        // };
-        // if (ad.offer.type) {
-        //   card.querySelector('.popup__type').style.display = 'none'
-        // };
-        // if (ad.offer.rooms || ad.offer.guests) {
-        //   card.querySelector('.popup__text--capacity').style.display = 'none'
-        // };
-        // if (ad.offer.features) {
-        //   card.querySelector('.popup__features').style.display = 'none'
-        // };
-        // if (ad.offer.photos) {
-        //   card.querySelector('.popup__photos').style.display = 'none'
-        // };
-        // if (ad.author.avatar) {
-        //   card.querySelector('.popup__avatar').style.display = 'none'
-        // };
-        if (ad.offer.title === 'Небольшая лавочка в парке') {
-          card.classList.add('hidden');
-        }
-      };
+
+
+      if (!ad.offer) {
+        card.style.display = 'none'
+      } else {
+        card.style.display = 'block'
+      }
+
+      if (ad.offer.features.length === 0) {
+        card.querySelector('.popup__features').style.display = 'none'
+      } else {
+        card.querySelector('.popup__features').style.display = 'block'
+      }
+      if (ad.offer.photos.length === 0) {
+        card.querySelector('.popup__photos').style.display = 'none'
+      } else {
+        card.querySelector('.popup__photos').style.display = 'flex'
+      }
+
+
       placeCard.after(card);
       card.classList.remove('hidden');
     }
