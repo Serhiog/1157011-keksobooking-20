@@ -7,7 +7,7 @@
 
   window.backend = {
 
-    get: function (onSucces, onError) {
+    load: function (onSucces, onError) {
       var xhr = new XMLHttpRequest();
 
       xhr.addEventListener('load', function () {
@@ -33,7 +33,7 @@
       xhr.send();
     },
 
-    post: function (data, onSuccesPost, onErrorPost) {
+    save: function (data, onSuccesPost, onErrorPost) {
       var xhr = new XMLHttpRequest();
 
       xhr.addEventListener('load', function () {

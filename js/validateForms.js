@@ -15,6 +15,7 @@
   var clearBtn = document.querySelector('.ad-form__reset');
   var address = document.querySelector('#address');
 
+
   timeIn.addEventListener('change', function () {
     timeOut.value = timeIn.value;
   });
@@ -75,10 +76,14 @@
   }
 
   var onSuccesPost = function () {
+
+
     window.unActivePage.unActivePage();
     var cloneMessage = successMessage.cloneNode(true)
     var successMessageField = cloneMessage.querySelector('.success__message');
     document.querySelector('main').appendChild(cloneMessage)
+
+
 
     cloneMessage.addEventListener('click', function (evt) {
       if (evt.target !== successMessageField) {
@@ -114,7 +119,7 @@
   }
 
   form.addEventListener('submit', function (evt) {
-    window.backend.post(new FormData(form), onSuccesPost, onErrorPost)
+    window.backend.save(new FormData(form), onSuccesPost, onErrorPost)
     evt.preventDefault()
   })
 
