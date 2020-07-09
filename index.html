@@ -41,7 +41,9 @@
 
       <!-- Фильтрация объявлений -->
       <div class='map__filters-container'>
+
         <form action='#' class='map__filters' autocomplete='off' method="POST" type="multipart/form-data">
+
           <select name='housing-type' id='housing-type' class='map__filter'>
             <option value='any' selected>Любой тип жилья</option>
             <option value='palace'>Дворец</option>
@@ -116,7 +118,7 @@
         </fieldset>
         <fieldset class='ad-form__element ad-form__element--wide'>
           <label class='ad-form__label' for='address'>Адрес</label>
-          <input id='address' name='address' type='text'>
+          <input id='address' name='address' type='text' readonly required>
         </fieldset>
         <fieldset class='ad-form__element'>
           <label class='ad-form__label' for='type'>Тип жилья</label>
@@ -272,8 +274,8 @@
     </div>
   </template>
   <script src='js/util.js'></script>
+  <script src='js/backend.js'></script>
   <script src='js/mainPin.js'></script>
-  <script src='js/active.js'></script>
   <script src='js/renderPins.js'></script>
   <script src='js/createAd.js'></script>
   <script src='js/validateForms.js'></script>
@@ -281,6 +283,7 @@
   <script src='js/unActivePage.js'></script>
   <script src='js/cardClose.js'></script>
   <script src='js/dragMainPin.js'></script>
+  <script src='js/active.js'></script>
 </body>
 
 </html>
