@@ -40,8 +40,4 @@
       console.log(errortext)
     }
   };
-
-
-
-
 })();
