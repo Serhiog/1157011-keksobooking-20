@@ -3,31 +3,41 @@
 (function () {
   window.renderPins = {
 
-    createAds: function () {
-      var ADSCOUNT = 8;
-      var ads = [];
-      for (var i = 1; i <= ADSCOUNT; i++) {
-        ads.push(window.createAd.createAd(i));
-      }
-      return ads
-    },
-
-    renderPins: function () {
+    mapPins: document.querySelector('.map__pins'),
+    onSucces: function (response) {
       var mapPins = document.querySelector('.map__pins');
-      var ads = window.renderPins.createAds();
       var pinElement = document.querySelector('#pin').content.querySelector('.map__pin');
       var fragment = new DocumentFragment();
 
-      for (var i = 0; i < window.renderPins.createAds().length; i++) {
+      for (var i = 0; i < response.length; i++) {
         var clonePin = pinElement.cloneNode(true);
-        clonePin.style.left = ads[i].location.x - window.mainPin.PINWIDTH / 2 + 'px';
-        clonePin.style.top = ads[i].location.y - window.mainPin.PINHEIGHT + 'px';
-        clonePin.querySelector('img').src = ads[i].author.avatar;
-        clonePin.querySelector('img').alt = ads[i].author.title;
+        clonePin.style.left = response[i].location.x - window.mainPin.PINWIDTH / 2 + 'px';
+        clonePin.style.top = response[i].location.y - window.mainPin.PINHEIGHT + 'px';
+        clonePin.querySelector('img').src = response[i].author.avatar;
+        clonePin.querySelector('img').alt = response[i].offer.title;
+
         fragment.appendChild(clonePin);
       }
+
       mapPins.appendChild(fragment);
+
+      var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)')
+
+      pins.forEach(element => {
+        element.addEventListener('click', function (evt) {
+          evt.preventDefault()
+          if (element.classList.contains('map__pin--active')) {
+            element.classList.remove('map__pin--active')
+          } else {
+            element.classList.add('map__pin--active')
+          }
+          var indexPin = [].slice.call(pins).indexOf(element);
+          window.renderCard.renderCard((response[indexPin]));
+        })
+      })
     },
-    mapPins: document.querySelector('.map__pins')
+    onError: function (errortext) {
+      console.log(errortext)
+    }
   };
 })();
