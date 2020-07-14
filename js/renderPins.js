@@ -33,11 +33,12 @@
       pins.forEach(element => {
         element.addEventListener('click', function (evt) {
           evt.preventDefault()
-          if (element.classList.contains('map__pin--active')) {
+
+          pins.forEach(element => {
             element.classList.remove('map__pin--active')
-          } else {
-            element.classList.add('map__pin--active')
-          }
+          })
+          element.classList.add('map__pin--active')
+
           var indexPin = [].slice.call(pins).indexOf(element);
           window.renderCard.renderCard((response[indexPin]));
         })
