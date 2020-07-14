@@ -14,18 +14,23 @@
         if (xhr.status === successCode) {
           onSucces(xhr.response);
         } else {
+
           onError('Произошла ошибка: ' + xhr.status + ' ' + xhr.statusText)
+          window.validateForms.filterForm.forEach(element => {
+            element.setAttribute('disabled', 'disabled')
+          });
+
         }
       });
 
       xhr.responseType = 'json'
 
       xhr.addEventListener('error', function () {
-        'Ошибка соединения'
+        onError('Ошибка соединения')
       })
 
       xhr.addEventListener('timeout', function () {
-        'Не удалось загрузить данные за ' + xhr.timeout + ' секунд'
+        onError('Не удалось загрузить данные за ' + xhr.timeout + ' секунд')
       })
 
       xhr.setTimeOut = 10000;

@@ -11,10 +11,8 @@
   };
 
   var pinMap = window.mainPin.map.querySelector('.map__pin--main');
-  var pinX = parseInt(pinMap.style.left);
-  var pinY = parseInt(pinMap.style.top);
 
-  pinMap.addEventListener('click', function (evt) {
+  pinMap.addEventListener('mousedown', function (evt) {
     if (evt.button === 0) {
       window.active.activePage();
     };

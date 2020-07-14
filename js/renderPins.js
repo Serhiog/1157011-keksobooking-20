@@ -1,10 +1,17 @@
 'use strict';
 
 (function () {
+  var unFiltredPins = [];
+  var filtredPins = [];
+
   window.renderPins = {
 
     mapPins: document.querySelector('.map__pins'),
+
     onSucces: function (response) {
+
+      unFiltredPins = response
+
       var mapPins = document.querySelector('.map__pins');
       var pinElement = document.querySelector('#pin').content.querySelector('.map__pin');
       var fragment = new DocumentFragment();
@@ -35,9 +42,23 @@
           window.renderCard.renderCard((response[indexPin]));
         })
       })
+
+      window.renderPins.filtredPins()
     },
     onError: function (errortext) {
       console.log(errortext)
+    },
+
+    filtredPins: function (evt) {
+      var housingType = document.querySelector('#housing-type')
+
+      housingType.addEventListener('change', function (evt) {
+        filtredPins = unFiltredPins.filter(item => item.offer.type === evt.target.value)
+        return filtredPins
+      })
+
+
+      console.log(filtredPins)
     }
   };
 })();

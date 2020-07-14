@@ -9,7 +9,13 @@
     },
     randomArray: function (array) {
       return array.slice(0, window.util.randomInteger(1, array.length));
+    },
+    counter: function () {
+      array.forEach(element => {
+
+      });
     }
   };
+
 
 })();

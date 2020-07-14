@@ -23,6 +23,8 @@
   });
 
   window.validateForms = {
+    filterForm: Array.from(document.querySelector('.map__filters').children),
+
     turnOnControls: function () {
       for (var i = 0; i < selects.length; i++) {
         selects[i].removeAttribute('disabled');
