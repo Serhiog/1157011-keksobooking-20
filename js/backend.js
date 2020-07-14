@@ -7,7 +7,7 @@
 
   window.backend = {
 
-    get: function (onSucces, onError) {
+    load: function (onSucces, onError) {
       var xhr = new XMLHttpRequest();
 
       xhr.addEventListener('load', function () {
