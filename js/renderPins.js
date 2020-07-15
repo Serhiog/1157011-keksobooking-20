@@ -4,6 +4,9 @@
   var unFiltredPins = [];
   var filtredPins = [];
 
+
+
+
   window.renderPins = {
 
     mapPins: document.querySelector('.map__pins'),
@@ -44,22 +47,27 @@
         })
       })
 
-      window.renderPins.filtredPins()
+
     },
     onError: function (errortext) {
       console.log(errortext)
     },
-
-    filtredPins: function (evt) {
-      var housingType = document.querySelector('#housing-type')
-
-      housingType.addEventListener('change', function (evt) {
-        filtredPins = unFiltredPins.filter(item => item.offer.type === evt.target.value)
-        return filtredPins
-      })
-
-
-      console.log(filtredPins)
-    }
   };
-})();
+
+
+  var housingType = document.querySelector('#housing-type')
+
+  var filtredPinsFunc = function (evt) {
+
+    filtredPins = unFiltredPins.filter(item => item.offer.type === evt.target.value)
+    console.log(filtredPins)
+
+    return filtredPins
+  }
+  console.log(filtredPins)
+
+  housingType.addEventListener('change', filtredPinsFunc)
+
+
+}
+)();

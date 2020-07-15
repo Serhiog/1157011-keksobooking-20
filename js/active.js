@@ -18,7 +18,6 @@
       window.validateForms.numberOfRooms.addEventListener('change', window.validateForms.capacityCheck);
       window.validateForms.numberOfGuests.addEventListener('change', window.validateForms.capacityCheck);
       window.validateForms.capacityCheck();
-
     }
   };
 })();
