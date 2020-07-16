@@ -1,14 +1,15 @@
 'use strict';
 
 (function () {
+
+
   var checkGet = false
   window.active = {
     activePage: function () {
 
       window.mainPin.map.classList.remove('map--faded');
-      if (!checkGet) {
-        window.backend.load(window.renderPins.onSucces, window.renderPins.onError);
-      }
+
+      checkGet ? console.log() : window.backend.load(window.filterPins.toFilterPins);
       checkGet = true
 
       window.validateForms.turnOnControls();

@@ -5,7 +5,9 @@
   var POSTURL = 'https://javascript.pages.academy/keksobooking';
   var successCode = 200;
 
+
   window.backend = {
+
 
     load: function (onSucces, onError) {
       var xhr = new XMLHttpRequest();
@@ -13,6 +15,7 @@
       xhr.addEventListener('load', function () {
         if (xhr.status === successCode) {
           onSucces(xhr.response);
+
         } else {
 
           onError('Произошла ошибка: ' + xhr.status + ' ' + xhr.statusText)
@@ -36,6 +39,9 @@
       xhr.setTimeOut = 10000;
       xhr.open('GET', GETURL);
       xhr.send();
+
+
+
     },
 
     post: function (data, onSuccesPost, onErrorPost) {
@@ -64,4 +70,5 @@
       xhr.send(data);
     }
   };
+
 })();

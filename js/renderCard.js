@@ -85,12 +85,7 @@
 
       // Скрытие блоков при отсутствии контента
 
-
-      if (!ad.offer) {
-        card.style.display = 'none'
-      } else {
-        card.style.display = 'block'
-      }
+      ad.offer ? card.style.display = 'block' : card.style.display = 'none'
 
       if (ad.offer.features.length === 0) {
         card.querySelector('.popup__features').style.display = 'none'
@@ -106,6 +101,8 @@
 
       placeCard.after(card);
       card.classList.remove('hidden');
+
+
     }
 
   };

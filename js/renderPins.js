@@ -1,30 +1,29 @@
 'use strict';
 
 (function () {
-  var unFiltredPins = [];
-  var filtredPins = [];
-
-
 
 
   window.renderPins = {
 
     mapPins: document.querySelector('.map__pins'),
 
-    onSucces: function (response) {
+    onSucces: function (actualPins) {
 
-      unFiltredPins = response
+      Array.from(document.querySelectorAll('.map__pin:not(.map__pin--main)')).forEach(element => {
+        element.remove()
+      })
 
       var mapPins = document.querySelector('.map__pins');
       var pinElement = document.querySelector('#pin').content.querySelector('.map__pin');
       var fragment = new DocumentFragment();
 
-      for (var i = 0; i < response.length; i++) {
+
+      for (var i = 0; i < actualPins.length; i++) {
         var clonePin = pinElement.cloneNode(true);
-        clonePin.style.left = response[i].location.x - window.mainPin.PINWIDTH / 2 + 'px';
-        clonePin.style.top = response[i].location.y - window.mainPin.PINHEIGHT + 'px';
-        clonePin.querySelector('img').src = response[i].author.avatar;
-        clonePin.querySelector('img').alt = response[i].offer.title;
+        clonePin.style.left = actualPins[i].location.x - window.mainPin.PINWIDTH / 2 + 'px';
+        clonePin.style.top = actualPins[i].location.y - window.mainPin.PINHEIGHT + 'px';
+        clonePin.querySelector('img').src = actualPins[i].author.avatar;
+        clonePin.querySelector('img').alt = actualPins[i].offer.title;
 
         fragment.appendChild(clonePin);
       }
@@ -43,7 +42,9 @@
           element.classList.add('map__pin--active')
 
           var indexPin = [].slice.call(pins).indexOf(element);
-          window.renderCard.renderCard((response[indexPin]));
+
+          window.renderCard.renderCard((actualPins[indexPin]));
+          
         })
       })
 
@@ -51,23 +52,9 @@
     },
     onError: function (errortext) {
       console.log(errortext)
-    },
+    }
+
   };
-
-
-  var housingType = document.querySelector('#housing-type')
-
-  var filtredPinsFunc = function (evt) {
-
-    filtredPins = unFiltredPins.filter(item => item.offer.type === evt.target.value)
-    console.log(filtredPins)
-
-    return filtredPins
-  }
-  console.log(filtredPins)
-
-  housingType.addEventListener('change', filtredPinsFunc)
-
 
 }
 )();
