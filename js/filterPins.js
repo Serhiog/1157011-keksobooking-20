@@ -11,6 +11,16 @@
   var checkEmptyType = false
   var emptyArray = []
 
+  var pinsFeatures = {
+    maxPrice: '50000',
+    minPrice: '10000',
+    priceMaxLevel: 'high',
+    priceMidLevel: 'middle',
+    priceLowLevel: 'low',
+    priceAnyLevel: 'any'
+  }
+
+
   window.filterPins = {
 
     toFilterPins: function (response) {
@@ -42,55 +52,31 @@
       }
 
       if (card) { card.remove() }
-
-
     },
 
     changePrice: function (evt) {
-      
-      var target
-      if (evt.target.value === 'high') {
-        if (checkEmptyType && filtredAds.length === 0) {
-          window.renderPins.onSucces(emptyArray)
-        }
-        target = 50000
-        if (!checkEmptyType && filtredAds.length === 0) {
-          filtredAds = unFiltredPins
-        }
-        var pop = filtredAds.filter(item => item.offer.price >= target);
-        window.renderPins.onSucces(pop)
+
+      if (checkEmptyType && filtredAds.length === 0) {
+        window.renderPins.onSucces(emptyArray)
+      }
+      if (!checkEmptyType && filtredAds.length === 0) {
+        filtredAds = unFiltredPins
+      }
+      if (evt.target.value === pinsFeatures.priceMaxLevel) {
+        window.renderPins.onSucces(filtredAds.filter(item => item.offer.price >= pinsFeatures.maxPrice))
+      }
+      if (evt.target.value === pinsFeatures.priceLowLevel) {
+        window.renderPins.onSucces(filtredAds.filter(item => item.offer.price < pinsFeatures.minPrice))
+      }
+      if (evt.target.value === pinsFeatures.priceMidLevel) {
+        window.renderPins.onSucces(filtredAds.filter(item => item.offer.price >= pinsFeatures.minPrice && item.offer.price < pinsFeatures.maxPrice))
       }
 
-      if (evt.target.value === 'low') {
-        if (checkEmptyType && filtredAds.length === 0) {
-          window.renderPins.onSucces(emptyArray)
-        }
-        target = 10000
-        if (!checkEmptyType && filtredAds.length === 0) {
-          filtredAds = unFiltredPins
-        }
-        var pop = filtredAds.filter(item => item.offer.price < target);
-        window.renderPins.onSucces(pop)
-      }
-
-      if (evt.target.value === 'middle') {
-        if (checkEmptyType && filtredAds.length === 0) {
-          window.renderPins.onSucces(emptyArray)
-        }
-
-        if (!checkEmptyType && filtredAds.length === 0) {
-          filtredAds = unFiltredPins
-        }
-        var pop = filtredAds.filter(item => item.offer.price >= '10000' && item.offer.price < '50000');
-        window.renderPins.onSucces(pop)
-      }
-
-      if (evt.target.value === 'any') {
-        var pop = filtredAds;
+      if (evt.target.value === pinsFeatures.priceAnyLevel) {
+        window.renderPins.onSucces(filtredAds)
       }
 
       if (card) { card.remove() }
-      window.renderPins.onSucces(pop)
     }
   }
 
