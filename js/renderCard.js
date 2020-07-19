@@ -65,20 +65,20 @@
 
       listFeatures.appendChild(featuresFragment);
 
-
-      //Рендеринг types
-      if (ad.offer.type === 'flat') {
-        type.textContent = 'Квартира'
-      };
-      if (ad.offer.type === 'bungalo') {
-        type.textContent = 'Бунгало'
-      };
-      if (ad.offer.type === 'house') {
-        type.textContent = 'Дом'
-      };
-      if (ad.offer.type === 'palace') {
-        type.textContent = 'Дворец'
-      };
+      switch (ad.offer.type) {
+        case 'flat':
+          type.textContent = 'Квартира'
+          break;
+        case 'bungalo':
+          type.textContent = 'Бунгало'
+          break;
+        case 'house':
+          type.textContent = 'Дом'
+          break;
+        case 'palace':
+          type.textContent = 'Дворец'
+          break;
+      }
 
       //Рендерим аватар
       avatar.src = ad.author.avatar;

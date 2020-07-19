@@ -9,7 +9,7 @@
 
       window.mainPin.map.classList.remove('map--faded');
 
-      checkGet ? console.log() : window.backend.load(window.filterPins.toFilterPins);
+      checkGet ? console.log() : window.backend.load(window.filterPins.toFilterPins, window.renderPins.onError);
       checkGet = true
 
       window.validateForms.turnOnControls();

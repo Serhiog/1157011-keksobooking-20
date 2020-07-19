@@ -2,7 +2,6 @@
 
 (function () {
 
-
   window.renderPins = {
 
     mapPins: document.querySelector('.map__pins'),
@@ -18,7 +17,7 @@
       var fragment = new DocumentFragment();
 
 
-      for (var i = 0; i < actualPins.length; i++) {
+      for (var i = 0; i < actualPins.slice(0, 5).length; i++) {
         var clonePin = pinElement.cloneNode(true);
         clonePin.style.left = actualPins[i].location.x - window.mainPin.PINWIDTH / 2 + 'px';
         clonePin.style.top = actualPins[i].location.y - window.mainPin.PINHEIGHT + 'px';
@@ -44,14 +43,32 @@
           var indexPin = [].slice.call(pins).indexOf(element);
 
           window.renderCard.renderCard((actualPins[indexPin]));
-          
+
         })
       })
 
 
     },
     onError: function (errortext) {
-      console.log(errortext)
+      var errorMessage = document.querySelector('#error').content.querySelector('.error')
+      var closeErrorBtn = errorMessage.querySelector('.error__button')
+      var cloneMessage = errorMessage.cloneNode(true)
+      document.querySelector('main').appendChild(cloneMessage)
+      var errorMessageCloned = document.querySelector('.error__message')
+      errorMessageCloned.textContent = 'Ошибка загрузки объявлений :-('
+      cloneMessage.addEventListener('click', function () {
+        cloneMessage.classList.add('hidden')
+      })
+
+      document.addEventListener('keydown', function (evt) {
+        if (evt.key === 'Escape') {
+          cloneMessage.classList.add('hidden')
+        }
+      })
+
+      closeErrorBtn.addEventListener('click', function () {
+        cloneMessage.classList.add('hidden')
+      })
     }
 
   };
