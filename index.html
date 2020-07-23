@@ -100,10 +100,12 @@
           <legend class='ad-form-header__title'>Ваша фотография (для карты)</legend>
           <div class='ad-form-header__upload'>
             <div class='ad-form-header__preview'>
-              <img src='img/muffin-grey.svg' alt='Аватар пользователя' width='40' height='44'>
+              <img class='ad-form-header__avatar' src='img/muffin-grey.svg' alt='Аватар пользователя' width='40'
+                height='44'>
             </div>
             <div class='ad-form__field'>
-              <input type='image' id='avatar' name='avatar' class='ad-form-header__input visually-hidden'>
+              <input id='avatar' name='avatar' class='ad-form-header__input visually-hidden'
+                accept="image/jpeg,image/png" type="file">
               <label class='ad-form-header__drop-zone' for='avatar'>Загрузить<br>фото...</label>
             </div>
             <p class='ad-form-header__info'>Заполните все обязательные поля, назначьте цену, загрузите фотографии.
@@ -273,7 +275,11 @@
       <button class='error__button'>Попробовать снова</button>
     </div>
   </template>
+
   <script src='js/util.js'></script>
+  <script src='js/debouce.js'></script>
+  <script src='js/filter.js'></script>
+  <script src='js/data.js'></script>
   <script src='js/validateForms.js'></script>
   <script src='js/backend.js'></script>
   <script src='js/mainPin.js'></script>
@@ -286,7 +292,7 @@
   <script src='js/cardClose.js'></script>
   <script src='js/dragMainPin.js'></script>
   <script src='js/active.js'></script>
-  <script src='js/filterPins.js'></script>
+  <script src='js/avatar.js'></script>
 
 </body>
 

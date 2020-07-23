@@ -15,7 +15,7 @@
       xhr.addEventListener('load', function () {
         if (xhr.status === successCode) {
           onSucces(xhr.response);
-
+          window.data.filtered = window.data.pins = xhr.response
         } else {
 
           onError('Произошла ошибка: ' + xhr.status + ' ' + xhr.statusText)

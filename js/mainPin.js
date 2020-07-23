@@ -15,12 +15,12 @@
   pinMap.addEventListener('mousedown', function (evt) {
     if (evt.button === 0) {
       window.active.activePage();
-    };
+    }
   });
 
   pinMap.addEventListener('keydown', function (evt) {
     if (evt.key === 'Enter') {
       window.active.activePage();
-    };
+    }
   });
 })();

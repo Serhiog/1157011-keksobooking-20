@@ -9,8 +9,11 @@
 
       window.mainPin.map.classList.remove('map--faded');
 
-      checkGet ? console.log() : window.backend.load(window.filterPins.toFilterPins, window.renderPins.onError);
-      checkGet = true
+
+      if (!checkGet) {
+        window.backend.load(window.renderPins.onSucces, window.renderPins.onError);
+      }
+      checkGet = true;
 
       window.validateForms.turnOnControls();
       document.querySelector('.ad-form').classList.remove('ad-form--disabled');
