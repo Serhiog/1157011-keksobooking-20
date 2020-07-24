@@ -8,40 +8,31 @@
 
   window.backend = {
 
-
     load: function (onSucces, onError) {
       var xhr = new XMLHttpRequest();
 
       xhr.addEventListener('load', function () {
         if (xhr.status === successCode) {
           onSucces(xhr.response);
-          window.data.filtered = window.data.pins = xhr.response
+          window.data.filtered = window.data.pins = xhr.response;
         } else {
-
-          onError('Произошла ошибка: ' + xhr.status + ' ' + xhr.statusText)
-          window.validateForms.filterForm.forEach(element => {
-            element.setAttribute('disabled', 'disabled')
-          });
-
+          onError('Произошла ошибка: ' + xhr.status + ' ' + xhr.statusText);
         }
       });
 
-      xhr.responseType = 'json'
+      xhr.responseType = 'json';
 
       xhr.addEventListener('error', function () {
-        onError('Ошибка соединения')
-      })
+        onError('Ошибка соединения');
+      });
 
       xhr.addEventListener('timeout', function () {
-        onError('Не удалось загрузить данные за ' + xhr.timeout + ' секунд')
-      })
+        onError('Не удалось загрузить данные за ' + xhr.timeout + ' секунд');
+      });
 
       xhr.setTimeOut = 10000;
       xhr.open('GET', GETURL);
       xhr.send();
-
-
-
     },
 
     post: function (data, onSuccesPost, onErrorPost) {
@@ -51,24 +42,23 @@
         if (xhr.status === successCode) {
           onSuccesPost();
         } else {
-          onErrorPost()
+          onErrorPost();
         }
       });
 
       xhr.responseType = 'json';
 
       xhr.addEventListener('error', function () {
-        onError('Ошибка соединения')
-      })
+        onErrorPost('Ошибка соединения');
+      });
 
       xhr.addEventListener('timeout', function () {
-        onError('Не удалось загрузить данные за ' + xhr.timeout + ' секунд')
-      })
+        onErrorPost('Не удалось загрузить данные за ' + xhr.timeout + ' секунд');
+      });
 
       xhr.setTimeOut = 10000;
-      xhr.open('POST', POSTURL)
+      xhr.open('POST', POSTURL);
       xhr.send(data);
     }
   };
-
 })();

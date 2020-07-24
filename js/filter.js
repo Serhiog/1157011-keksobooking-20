@@ -8,7 +8,6 @@
   var housingGuests = document.querySelector('#housing-guests');
   var housingFeatures = document.querySelectorAll('.map__features .map__checkbox');
 
-
   var stringToPrice = function (price) {
     var correctPrice;
     if (price < 10000) {

@@ -22,15 +22,13 @@
       card.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin + ',' + 'выезд до ' + ad.offer.checkout;
       card.querySelector('.popup__description').textContent = ad.offer.description;
 
-      // Рендерим фотографии объявления
-
       if (!photosList.hasChildNodes()) {
-        let newPhoto = document.createElement("img");
-        newPhoto.classList.add('popup__photo')
-        newPhoto.setAttribute('width', '45')
-        newPhoto.setAttribute('height', '40')
-        newPhoto.setAttribute('alt', 'Фотография жилья')
-        photosList.appendChild(newPhoto)
+        var newPhoto = document.createElement('img');
+        newPhoto.classList.add('popup__photo');
+        newPhoto.setAttribute('width', '45');
+        newPhoto.setAttribute('height', '40');
+        newPhoto.setAttribute('alt', 'Фотография жилья');
+        photosList.appendChild(newPhoto);
       }
 
       var photosFragment = new DocumentFragment();
@@ -39,71 +37,64 @@
         var clonePhoto = photosList.querySelector('.popup__photo').cloneNode(true);
         clonePhoto.src = ad.offer.photos[i];
         photosFragment.appendChild(clonePhoto);
-      };
+      }
 
       while (photosList.firstChild) {
-        photosList.removeChild(photosList.firstChild)
-      };
+        photosList.removeChild(photosList.firstChild);
+      }
 
       photosList.appendChild(photosFragment);
 
-
-      // Фильтруем features
-      //Удаляем элементы по умолчанию из разметки
       while (listFeatures.firstChild) {
         listFeatures.removeChild(listFeatures.firstChild);
-      };
+      }
 
-      //Рендерим актуальные features
       var featuresFragment = new DocumentFragment();
-      for (var i = 0; i < ad.offer.features.length; i++) {
+      for (var j = 0; j < ad.offer.features.length; j++) {
         var item = document.createElement('li');
         item.className = 'popup__feature';
-        item.classList.add('popup__feature--' + ad.offer.features[i]);
+        item.classList.add('popup__feature--' + ad.offer.features[j]);
         featuresFragment.appendChild(item);
-      };
+      }
 
       listFeatures.appendChild(featuresFragment);
 
       switch (ad.offer.type) {
         case 'flat':
-          type.textContent = 'Квартира'
+          type.textContent = 'Квартира';
           break;
         case 'bungalo':
-          type.textContent = 'Бунгало'
+          type.textContent = 'Бунгало';
           break;
         case 'house':
-          type.textContent = 'Дом'
+          type.textContent = 'Дом';
           break;
         case 'palace':
-          type.textContent = 'Дворец'
+          type.textContent = 'Дворец';
           break;
       }
 
-      //Рендерим аватар
       avatar.src = ad.author.avatar;
 
-      // Скрытие блоков при отсутствии контента
-
-      ad.offer ? card.style.display = 'block' : card.style.display = 'none'
+      if (ad.offer) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
 
       if (ad.offer.features.length === 0) {
-        card.querySelector('.popup__features').style.display = 'none'
+        card.querySelector('.popup__features').style.display = 'none';
       } else {
-        card.querySelector('.popup__features').style.display = 'block'
+        card.querySelector('.popup__features').style.display = 'block';
       }
       if (ad.offer.photos.length === 0) {
-        card.querySelector('.popup__photos').style.display = 'none'
+        card.querySelector('.popup__photos').style.display = 'none';
       } else {
-        card.querySelector('.popup__photos').style.display = 'flex'
+        card.querySelector('.popup__photos').style.display = 'flex';
       }
-
 
       placeCard.after(card);
       card.classList.remove('hidden');
-
-
     }
-
   };
 })();
