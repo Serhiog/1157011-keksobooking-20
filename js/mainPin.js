@@ -4,8 +4,8 @@
 
   window.mainPin = {
     map: document.querySelector('.map'),
-    PINHEIGHT: 50,
-    PINWIDTH: 70,
+    PINHEIGHT: 87,
+    PINWIDTH: 64,
     address: document.querySelector('#address'),
     pinMap: document.querySelector('.map__pin--main')
   };

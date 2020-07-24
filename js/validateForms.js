@@ -14,6 +14,7 @@
   var closeErrorBtn = errorMessage.querySelector('.error__button');
   var clearBtn = document.querySelector('.ad-form__reset');
   var address = document.querySelector('#address');
+  var startPositionMainPin = '605,425';
 
   timeIn.addEventListener('change', function () {
     timeOut.value = timeIn.value;
@@ -94,7 +95,7 @@
         cloneMessage.classList.add('hidden');
       }
     });
-    address.value = '605,425';
+    address.value = startPositionMainPin;
   };
 
   var onErrorPost = function () {
@@ -124,6 +125,7 @@
   clearBtn.addEventListener('click', function (evt) {
     evt.preventDefault();
     window.unActivePage.unActivePage();
+    address.value = startPositionMainPin;
   });
 
 })();

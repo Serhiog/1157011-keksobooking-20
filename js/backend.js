@@ -5,7 +5,6 @@
   var POSTURL = 'https://javascript.pages.academy/keksobooking';
   var successCode = 200;
 
-
   window.backend = {
 
     load: function (onSucces, onError) {

@@ -1,57 +1,53 @@
 'use strict';
 
 (function () {
+  var MAIN_PIN_WIDTH = 65;
+  var MAIN_PIN_HEIGHT = 87;
+  var mainPinElement = document.querySelector('.map__pin--main');
+  var MAP_OFFSET_LEFT = 0 - Math.floor(MAIN_PIN_WIDTH / 2);
+  var MAP_OFFSET_RIGHT = 1200 - Math.floor(MAIN_PIN_WIDTH / 2);
+  var MAP_OFFSET_TOP = 130 - MAIN_PIN_HEIGHT;
+  var MAP_OFFSET_BOTTOM = 630 - MAIN_PIN_HEIGHT;
+
   window.mainPin.address.value = Math.round(window.mainPin.pinMap.offsetLeft + (window.mainPin.PINWIDTH / 2)) + ',' + Math.round(window.mainPin.pinMap.offsetTop + window.mainPin.PINHEIGHT);
-  var mapPinWidth = window.renderPins.mapPins.offsetWidth;
 
   window.mainPin.pinMap.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
-    var startPosition = {
+    var startCoords = {
       x: evt.clientX,
       y: evt.clientY
     };
-
-    var moveMainPin = function (evtMove) {
-      evtMove.preventDefault();
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
       var shift = {
-        x: startPosition.x - evtMove.clientX,
-        y: startPosition.y - evtMove.clientY,
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
       };
 
-      startPosition = {
-        x: evtMove.clientX,
-        y: evtMove.clientY
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
       };
 
-      window.mainPin.pinMap.style.left = (window.mainPin.pinMap.offsetLeft - shift.x) + 'px';
-      window.mainPin.pinMap.style.top = (window.mainPin.pinMap.offsetTop - shift.y) + 'px';
-
-
-      window.dragMainPin = {
-        left: window.mainPin.pinMap.offsetLeft - shift.x,
-        top: window.mainPin.pinMap.offsetTop - shift.y
-      };
-
-      window.mainPin.address.value = Math.round(window.dragMainPin.left + (window.mainPin.PINWIDTH / 2)) + ',' + Math.round(window.dragMainPin.top + 88);
-
-      if (window.dragMainPin.left > (window.renderPins.mapPins.offsetWidth - window.mainPin.PINWIDTH / 2) || window.dragMainPin.left < (mapPinWidth - (mapPinWidth + window.mainPin.PINWIDTH / 2))
-        || window.dragMainPin.top < 130 || window.dragMainPin.top > 540
-      ) {
-        document.removeEventListener('mousemove', moveMainPin);
-        document.removeEventListener('mouseup', moveMainPin);
-
+      if (mainPinElement.offsetLeft - shift.x >= MAP_OFFSET_LEFT && mainPinElement.offsetLeft - shift.x <= MAP_OFFSET_RIGHT) {
+        mainPinElement.style.left = (mainPinElement.offsetLeft - shift.x) + 'px';
       }
-    };
 
-    var upMainPin = function (evtUp) {
-      evtUp.preventDefault();
-      document.removeEventListener('mousemove', moveMainPin);
-      document.removeEventListener('mouseup', moveMainPin);
-    };
+      if (mainPinElement.offsetTop - shift.y >= MAP_OFFSET_TOP && mainPinElement.offsetTop - shift.y <= MAP_OFFSET_BOTTOM) {
+        mainPinElement.style.top = (mainPinElement.offsetTop - shift.y) + 'px';
+      }
 
-    document.addEventListener('mousemove', moveMainPin);
-    document.addEventListener('mouseup', upMainPin);
+      window.mainPin.address.value = (mainPinElement.offsetLeft) + ',' + (mainPinElement.offsetTop);
+    };
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   });
+
 })();
 
