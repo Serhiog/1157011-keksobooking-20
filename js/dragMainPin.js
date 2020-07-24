@@ -33,10 +33,10 @@
         top: window.mainPin.pinMap.offsetTop - shift.y
       }
 
-      window.mainPin.address.value = Math.round(window.dragMainPin.left + (window.mainPin.PINWIDTH / 2)) + ',' + Math.round(window.dragMainPin.top);
+      window.mainPin.address.value = Math.round(window.dragMainPin.left + (window.mainPin.PINWIDTH / 2)) + ',' + Math.round(window.dragMainPin.top + 88);
 
       if (window.dragMainPin.left > (window.renderPins.mapPins.offsetWidth - window.mainPin.PINWIDTH / 2) || window.dragMainPin.left < (mapPinWidth - (mapPinWidth + window.mainPin.PINWIDTH / 2))
-        || window.dragMainPin.top < 130 || window.dragMainPin.top > 630
+        || window.dragMainPin.top < 130 || window.dragMainPin.top > 540
       ) {
         document.removeEventListener('mousemove', moveMainPin);
         document.removeEventListener('mouseup', moveMainPin);

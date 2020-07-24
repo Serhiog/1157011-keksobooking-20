@@ -4,7 +4,8 @@
 
   window.renderPins = {
 
-    mapPins: document.querySelector('.map__pins'),
+    mapPins: document.querySelectorAll('.map__pin:not(.map__pin--main)'),
+    
 
     onSucces: function (actualPins) {
 

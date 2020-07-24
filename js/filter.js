@@ -44,12 +44,13 @@
 
       var filterFeatures = function () {
         var filter = true;
-        features.forEach(function (feature) {
-          filter = ad.offer.features.find(function (item) {
-            return feature === item;
-          });
-        });
-
+        for (var i = 0; i < features.length; i++) {
+          if (ad.offer.features.indexOf(features[i]) === -1) {
+            console.log(ad.offer.features)
+            filter = false;
+            break;
+          }
+        }
         return filter;
       };
 
