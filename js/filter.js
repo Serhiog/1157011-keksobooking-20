@@ -46,7 +46,6 @@
         var filter = true;
         for (var i = 0; i < features.length; i++) {
           if (ad.offer.features.indexOf(features[i]) === -1) {
-            console.log(ad.offer.features)
             filter = false;
             break;
           }
