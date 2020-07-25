@@ -8,7 +8,6 @@
     activePage: function () {
 
       window.mainPin.map.classList.remove('map--faded');
-
       if (!checkGet) {
         window.backend.load(window.renderPins.onSucces, window.renderPins.onError);
       }
