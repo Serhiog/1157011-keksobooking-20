@@ -3,6 +3,6 @@
 (function () {
   window.data = {
     pins: [],
-    filtered: [],
+    filteredData: [],
   };
 })();

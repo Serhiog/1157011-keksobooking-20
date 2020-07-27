@@ -1,9 +1,10 @@
 'use strict';
 
 (function () {
-  var GETURL = 'https://javascript.pages.academy/keksobooking/data';
-  var POSTURL = 'https://javascript.pages.academy/keksobooking';
-  var successCode = 200;
+  var GET_URL = 'https://javascript.pages.academy/keksobooking/data';
+  var POST_URL = 'https://javascript.pages.academy/keksobooking';
+  var SUCCESS_CODE = 200;
+  var TIME_OUT = 10000;
 
   window.backend = {
 
@@ -11,9 +12,9 @@
       var xhr = new XMLHttpRequest();
 
       xhr.addEventListener('load', function () {
-        if (xhr.status === successCode) {
+        if (xhr.status === SUCCESS_CODE) {
           onSucces(xhr.response);
-          window.data.filtered = window.data.pins = xhr.response;
+          window.data.filteredData = window.data.pins = xhr.response;
         } else {
           onError('Произошла ошибка: ' + xhr.status + ' ' + xhr.statusText);
         }
@@ -29,8 +30,8 @@
         onError('Не удалось загрузить данные за ' + xhr.timeout + ' секунд');
       });
 
-      xhr.setTimeOut = 10000;
-      xhr.open('GET', GETURL);
+      xhr.setTimeOut = TIME_OUT;
+      xhr.open('GET', GET_URL);
       xhr.send();
     },
 
@@ -38,7 +39,7 @@
       var xhr = new XMLHttpRequest();
 
       xhr.addEventListener('load', function () {
-        if (xhr.status === successCode) {
+        if (xhr.status === SUCCESS_CODE) {
           onSuccesPost();
         } else {
           onErrorPost();
@@ -55,8 +56,8 @@
         onErrorPost('Не удалось загрузить данные за ' + xhr.timeout + ' секунд');
       });
 
-      xhr.setTimeOut = 10000;
-      xhr.open('POST', POSTURL);
+      xhr.setTimeOut = TIME_OUT;
+      xhr.open('POST', POST_URL);
       xhr.send(data);
     }
   };

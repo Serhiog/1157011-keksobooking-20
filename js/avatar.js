@@ -5,7 +5,8 @@
   var ALLOWED_TYPES = ['jpg', 'jpeg', 'png', 'gif'];
 
   var avatarChooser = document.querySelector('.ad-form-header__input');
-  var userPicAvatar = document.querySelector('.ad-form-header__avatar');
+  var userPic = document.querySelector('.ad-form-header__avatar');
+
 
   var adPhotoChooser = document.querySelector('.ad-form__input');
   var adPhoto = document.querySelector('.ad-form__photo');
@@ -22,7 +23,7 @@
 
       var reader = new FileReader();
       reader.addEventListener('load', function () {
-        userPicAvatar.src = reader.result;
+        userPic.src = reader.result;
       });
       reader.readAsDataURL(file);
     }
@@ -44,8 +45,17 @@
         newPhoto.style = 'width: inherit; height: inherit;';
         newPhoto.src = reader.result;
         adPhoto.appendChild(newPhoto);
+        window.avatar = {
+          newPhoto: newPhoto
+        };
       });
       reader.readAsDataURL(adFile);
     }
   });
+
+  window.avatar = {
+    userPic: userPic,
+    adPhoto: adPhoto
+  };
+
 })();

@@ -4,44 +4,50 @@
 
   window.renderPins = {
 
-    mapPins: document.querySelectorAll('.map__pin:not(.map__pin--main)'),
+    mapAds: document.querySelectorAll('.map__pin:not(.map__pin--main)'),
 
     onSucces: function (actualPins) {
+
       Array.from(document.querySelectorAll('.map__pin:not(.map__pin--main)')).forEach(function (elem) {
         elem.remove();
       });
-      var mapPins = document.querySelector('.map__pins');
+      var mapAds = document.querySelector('.map__pins');
       var pinElement = document.querySelector('#pin').content.querySelector('.map__pin');
       var fragment = new DocumentFragment();
 
       for (var i = 0; i < actualPins.slice(0, 5).length; i++) {
         var clonePin = pinElement.cloneNode(true);
-        clonePin.style.left = actualPins[i].location.x - window.mainPin.PINWIDTH / 2 + 'px';
-        clonePin.style.top = actualPins[i].location.y - window.mainPin.PINHEIGHT + 'px';
+        clonePin.style.left = actualPins[i].location.x - window.mainPin.PIN_WIDTH / 2 + 'px';
+        clonePin.style.top = actualPins[i].location.y - window.mainPin.PIN_HEIGHT + 'px';
         clonePin.querySelector('img').src = actualPins[i].author.avatar;
         clonePin.querySelector('img').alt = actualPins[i].offer.title;
 
         fragment.appendChild(clonePin);
       }
 
-      mapPins.appendChild(fragment);
+      mapAds.appendChild(fragment);
 
       var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
       pins.forEach(function (elem) {
         elem.addEventListener('click', function (evt) {
           evt.preventDefault();
-          for (var p = 0; p < pins.length; p++) {
-            pins[p].classList.remove('map__pin--active');
-          }
+          window.renderPins.markPinAsUnctive();
           elem.classList.add('map__pin--active');
           var indexPin = [].slice.call(pins).indexOf(elem);
-          window.renderCard.renderCard((actualPins[indexPin]));
+          window.renderCard.showAd((actualPins[indexPin]));
         });
       });
-
-
     },
+
+
+    markPinAsUnctive: function () {
+      var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+      pins.forEach(function (pin) {
+        pin.classList.remove('map__pin--active');
+      });
+    },
+
     onError: function (errortext) {
       var errorMessage = document.querySelector('#error').content.querySelector('.error');
       var closeErrorBtn = errorMessage.querySelector('.error__button');

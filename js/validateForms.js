@@ -1,6 +1,10 @@
 'use strict';
 
 (function () {
+
+  var TYPE_RELATION = {
+    flat: 1000, bungalo: 0, house: 5000, palace: 10000
+  };
   var selects = document.querySelectorAll('select');
   var inputs = document.querySelectorAll('input');
   var fieldSets = document.querySelectorAll('fieldset');
@@ -16,6 +20,7 @@
   var address = document.querySelector('#address');
   var startPositionMainPin = '605,425';
 
+
   timeIn.addEventListener('change', function () {
     timeOut.value = timeIn.value;
   });
@@ -24,44 +29,39 @@
   });
 
   window.validateForms = {
+
+    activeForm: function () {
+      price.setAttribute('min', TYPE_RELATION[type.value]);
+      price.setAttribute('placeholder', TYPE_RELATION[type.value]);
+    },
+
     filterForm: Array.from(document.querySelector('.map__filters').children),
 
     turnOnControls: function () {
-      for (var i = 0; i < selects.length; i++) {
-        selects[i].removeAttribute('disabled');
-      }
-      for (var j = 0; j < inputs.length; j++) {
-        inputs[j].removeAttribute('disabled');
-      }
-      for (var n = 0; n < fieldSets.length; n++) {
-        fieldSets[n].removeAttribute('disabled');
-      }
-    },
-
-    turnOfControls: function () {
-      for (var i = 0; i < selects.length; i++) {
-        selects[i].setAttribute('disabled', 'disabled');
-      }
-      for (var j = 0; j < inputs.length; j++) {
-        inputs[j].setAttribute('disabled', 'disabled');
-      }
-      for (var n = 0; n < fieldSets.length; n++) {
-        fieldSets[n].setAttribute('disabled', 'disabled');
-      }
-    },
-
-    activeForm: function () {
-
-      var typeRelation = {
-        flat: 1000, bungalo: 0, house: 5000, palace: 10000
-      };
-      type.addEventListener('change', function () {
-        price.setAttribute('min', typeRelation[type.value]);
-        price.setAttribute('placeholder', typeRelation[type.value]);
+      selects.forEach(function (select) {
+        select.removeAttribute('disabled');
+      });
+      inputs.forEach(function (input) {
+        input.removeAttribute('disabled');
+      });
+      fieldSets.forEach(function (fieldSet) {
+        fieldSet.removeAttribute('disabled');
       });
     },
 
-    capacityCheck: function () {
+    turnOfControls: function () {
+      selects.forEach(function (select) {
+        select.setAttribute('disabled', 'disabled');
+      });
+      inputs.forEach(function (input) {
+        input.setAttribute('disabled', 'disabled');
+      });
+      fieldSets.forEach(function (fieldSet) {
+        fieldSet.setAttribute('disabled', 'disabled');
+      });
+    },
+
+    checkNumberCapacityOfGuests: function () {
       if (window.validateForms.numberOfRooms.value === '100' && window.validateForms.numberOfGuests.value !== '0') {
         window.validateForms.numberOfGuests.setCustomValidity('Не для гостей');
       } else if (window.validateForms.numberOfGuests.value === '0' && window.validateForms.numberOfRooms.value !== '100') {
@@ -75,31 +75,35 @@
     },
 
     numberOfRooms: document.querySelector('#room_number'),
-    numberOfGuests: document.querySelector('#capacity')
+    numberOfGuests: document.querySelector('#capacity'),
+    type: type
+
+  };
+
+  var cloneMessage = successMessage.cloneNode(true);
+
+  var closeSuccesMessage = function (evt) {
+    if (evt.key === 'Escape' || evt.button === 0) {
+      cloneMessage.classList.add('hidden');
+    }
+    document.removeEventListener('click', closeSuccesMessage);
+
+    document.removeEventListener('keydown', closeSuccesMessage);
   };
 
   var onSuccesPost = function () {
-    window.unActivePage.unActivePage();
-    var cloneMessage = successMessage.cloneNode(true);
-    var successMessageField = cloneMessage.querySelector('.success__message');
+    window.unActivePage.deactivationState();
+
     document.querySelector('main').appendChild(cloneMessage);
 
-    cloneMessage.addEventListener('click', function (evt) {
-      if (evt.target !== successMessageField) {
-        cloneMessage.classList.add('hidden');
-      }
-    });
+    document.addEventListener('click', closeSuccesMessage);
 
-    document.addEventListener('keydown', function (evt) {
-      if (evt.key === 'Escape') {
-        cloneMessage.classList.add('hidden');
-      }
-    });
+    document.addEventListener('keydown', closeSuccesMessage);
+
     address.value = startPositionMainPin;
   };
 
   var onErrorPost = function () {
-    var cloneMessage = errorMessage.cloneNode(true);
     document.querySelector('main').appendChild(cloneMessage);
 
     cloneMessage.addEventListener('click', function () {
@@ -124,9 +128,11 @@
 
   clearBtn.addEventListener('click', function (evt) {
     evt.preventDefault();
-    window.unActivePage.unActivePage();
+    window.renderCard.card.remove();
+    window.unActivePage.deactivationState();
     address.value = startPositionMainPin;
+    window.avatar.userPic.src = 'img/muffin-grey.svg';
+    window.avatar.adPhoto.firstElementChild.remove();
   });
-
 })();
 

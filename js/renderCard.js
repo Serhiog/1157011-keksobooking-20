@@ -1,6 +1,12 @@
 'use strict';
 
 (function () {
+  var HOME_TYPES = {
+    flat: 'Квартира',
+    bungalo: 'Бунгало',
+    house: 'Дом',
+    palace: 'Дворец',
+  };
 
   var card = document.querySelector('#card').content.querySelector('.map__card');
   var photosList = card.querySelector('.popup__photos');
@@ -11,9 +17,7 @@
 
   window.renderCard = {
 
-    card: document.querySelector('#card').content.querySelector('.map__card'),
-
-    renderCard: function (ad) {
+    showAd: function (ad) {
 
       card.querySelector('.popup__title').textContent = ad.offer.title;
       card.querySelector('.popup__text--address').textContent = ad.location.x + ',' + ad.location.y;
@@ -32,9 +36,10 @@
       }
 
       var photosFragment = new DocumentFragment();
-      for (var i = 0; i < ad.offer.photos.length; i++) {
+      var standartPhoto = photosList.querySelector('.popup__photo');
 
-        var clonePhoto = photosList.querySelector('.popup__photo').cloneNode(true);
+      for (var i = 0; i < ad.offer.photos.length; i++) {
+        var clonePhoto = standartPhoto.cloneNode(true);
         clonePhoto.src = ad.offer.photos[i];
         photosFragment.appendChild(clonePhoto);
       }
@@ -59,20 +64,7 @@
 
       listFeatures.appendChild(featuresFragment);
 
-      switch (ad.offer.type) {
-        case 'flat':
-          type.textContent = 'Квартира';
-          break;
-        case 'bungalo':
-          type.textContent = 'Бунгало';
-          break;
-        case 'house':
-          type.textContent = 'Дом';
-          break;
-        case 'palace':
-          type.textContent = 'Дворец';
-          break;
-      }
+      type.textContent = HOME_TYPES[ad.offer.type];
 
       avatar.src = ad.author.avatar;
 
@@ -82,12 +74,12 @@
         card.style.display = 'none';
       }
 
-      if (ad.offer.features.length === 0) {
+      if (!ad.offer.features.length) {
         card.querySelector('.popup__features').style.display = 'none';
       } else {
         card.querySelector('.popup__features').style.display = 'block';
       }
-      if (ad.offer.photos.length === 0) {
+      if (!ad.offer.photos.length) {
         card.querySelector('.popup__photos').style.display = 'none';
       } else {
         card.querySelector('.popup__photos').style.display = 'flex';
@@ -95,6 +87,16 @@
 
       placeCard.after(card);
       card.classList.remove('hidden');
-    }
+
+
+      var cardClose = document.querySelector('.popup__close');
+
+      cardClose.addEventListener('click', window.cardClose.byClick);
+      document.addEventListener('keydown', window.cardClose.byKeyDown);
+
+
+    },
+    card: card,
   };
+
 })();
