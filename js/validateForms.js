@@ -82,13 +82,23 @@
 
   var cloneMessage = successMessage.cloneNode(true);
 
-  var closeSuccesMessage = function (evt) {
-    if (evt.key === 'Escape' || evt.button === 0) {
+  var successMessageField = cloneMessage.querySelector('.success__message');
+
+  var closeSuccesMessageByClick = function (evt) {
+    if (evt.target !== successMessageField) {
       cloneMessage.classList.add('hidden');
     }
-    document.removeEventListener('click', closeSuccesMessage);
+  };
 
-    document.removeEventListener('keydown', closeSuccesMessage);
+
+  var closeSuccesMessageByKey = function (evt) {
+    if (evt.key === 'Escape') {
+      cloneMessage.classList.add('hidden');
+      document.removeEventListener('keydown', closeSuccesMessageByKey);
+    }
+
+    document.removeEventListener('click', closeSuccesMessageByClick);
+
   };
 
   var onSuccesPost = function () {
@@ -96,9 +106,9 @@
 
     document.querySelector('main').appendChild(cloneMessage);
 
-    document.addEventListener('click', closeSuccesMessage);
+    document.addEventListener('click', closeSuccesMessageByClick);
 
-    document.addEventListener('keydown', closeSuccesMessage);
+    document.addEventListener('keydown', closeSuccesMessageByKey);
 
     address.value = startPositionMainPin;
   };
@@ -135,4 +145,3 @@
     //window.avatar.adPhoto.firstElementChild.remove();
   });
 })();
-

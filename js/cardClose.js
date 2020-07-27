@@ -10,7 +10,7 @@
     window.renderCard.card.classList.add('hidden');
     window.renderCard.card.style.display = 'none';
     var cardClose = document.querySelector('.popup__close');
-    cardClose.removeEventListener('click', window.cardClose.toCloseCardByClick);
+    cardClose.removeEventListener('click', window.cardClose.byClick);
     document.removeEventListener('keydown', window.cardClose.byKeyDown);
   };
 
@@ -26,7 +26,7 @@
         elem.classList.remove('map__pin--active');
       });
     }
-    document.removeEventListener('keydown', window.cardClose.toCloseCardByKeyDown);
+    document.removeEventListener('keydown', window.cardClose.byKeyDown);
   };
 
   window.cardClose = {
