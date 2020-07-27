@@ -80,6 +80,8 @@
 
   };
 
+  window.validateForms.activeForm()
+
   var cloneMessage = successMessage.cloneNode(true);
 
   var successMessageField = cloneMessage.querySelector('.success__message');
@@ -138,10 +140,12 @@
 
   clearBtn.addEventListener('click', function (evt) {
     evt.preventDefault();
+    document.querySelector('.ad-form-header__avatar').src = 'img/muffin-grey.svg';
+    document.querySelector('.ad-form__selected-photo').remove();
     window.renderCard.card.remove();
     window.unActivePage.deactivationState();
     address.value = startPositionMainPin;
-    window.avatar.userPic.src = 'img/muffin-grey.svg';
-    //window.avatar.adPhoto.firstElementChild.remove();
+
+
   });
 })();

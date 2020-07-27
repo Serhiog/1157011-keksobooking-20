@@ -42,6 +42,7 @@
       var reader = new FileReader();
       reader.addEventListener('load', function () {
         var newPhoto = document.createElement('img');
+        newPhoto.classList.add('ad-form__selected-photo');
         newPhoto.style = 'width: inherit; height: inherit;';
         newPhoto.src = reader.result;
         adPhoto.appendChild(newPhoto);
