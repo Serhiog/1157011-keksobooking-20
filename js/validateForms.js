@@ -80,7 +80,7 @@
 
   };
 
-  window.validateForms.activeForm()
+  window.validateForms.activeForm();
 
   var cloneMessage = successMessage.cloneNode(true);
 
@@ -91,7 +91,6 @@
       cloneMessage.classList.add('hidden');
     }
   };
-
 
   var closeSuccesMessageByKey = function (evt) {
     if (evt.key === 'Escape') {
