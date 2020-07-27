@@ -132,7 +132,7 @@
     window.unActivePage.deactivationState();
     address.value = startPositionMainPin;
     window.avatar.userPic.src = 'img/muffin-grey.svg';
-    window.avatar.adPhoto.firstElementChild.remove();
+    //window.avatar.adPhoto.firstElementChild.remove();
   });
 })();
 
