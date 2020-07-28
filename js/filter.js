@@ -25,6 +25,11 @@
 
 
   var renderFiltredPins = function () {
+    var cardClose = document.querySelector('.popup__close');
+    if (cardClose) {
+      cardClose.removeEventListener('click', window.cardClose.byClick);
+      document.removeEventListener('keydown', window.cardClose.byKeyDown);
+    }
     if (card) {
       card.remove();
     }
@@ -64,12 +69,12 @@
 
   };
 
-  housingFeatures.forEach(function (checkbox) {
-    checkbox.addEventListener('change', window.debounce(renderFiltredPins));
-  });
-
-  housingType.addEventListener('change', window.debounce(renderFiltredPins));
-  housingPrice.addEventListener('change', window.debounce(renderFiltredPins));
-  housingRooms.addEventListener('change', window.debounce(renderFiltredPins));
-  housingGuests.addEventListener('change', window.debounce(renderFiltredPins));
+  window.filter = {
+    housingType: housingType,
+    housingPrice: housingPrice,
+    housingRooms: housingRooms,
+    housingGuests: housingGuests,
+    housingFeatures: housingFeatures,
+    renderFiltredPins: renderFiltredPins
+  };
 })();

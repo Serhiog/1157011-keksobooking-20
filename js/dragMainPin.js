@@ -16,6 +16,10 @@
 
     if (evt.button === 0) {
       window.active.initializationPage();
+      var card = document.querySelector('.map__card');
+      if (card) {
+        card.remove();
+      }
     }
 
     var startCoords = {

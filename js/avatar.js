@@ -11,7 +11,7 @@
   var adPhotoChooser = document.querySelector('.ad-form__input');
   var adPhoto = document.querySelector('.ad-form__photo');
 
-  avatarChooser.addEventListener('change', function () {
+  var toSelectUserPhoto = function () {
     var file = avatarChooser.files[0];
     var fileName = file.name.toLowerCase();
 
@@ -27,9 +27,9 @@
       });
       reader.readAsDataURL(file);
     }
-  });
+  };
 
-  adPhotoChooser.addEventListener('change', function () {
+  var toSelectAdPhoto = function () {
     var adFile = adPhotoChooser.files[0];
     var adFileName = adFile.name.toLowerCase();
 
@@ -52,11 +52,19 @@
       });
       reader.readAsDataURL(adFile);
     }
-  });
+  };
+
 
   window.avatar = {
     userPic: userPic,
-    adPhoto: adPhoto
+    adPhoto: adPhoto,
+    avatarChooser: avatarChooser,
+    adPhotoChooser: adPhotoChooser,
+    toSelectUserPhoto: toSelectUserPhoto,
+    toSelectAdPhoto: toSelectAdPhoto
   };
+
+  avatarChooser.addEventListener('change', toSelectUserPhoto);
+  adPhotoChooser.addEventListener('change', toSelectAdPhoto);
 
 })();

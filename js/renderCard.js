@@ -93,8 +93,6 @@
 
       cardClose.addEventListener('click', window.cardClose.byClick);
       document.addEventListener('keydown', window.cardClose.byKeyDown);
-
-
     },
     card: card,
   };

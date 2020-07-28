@@ -26,7 +26,12 @@
         elem.classList.remove('map__pin--active');
       });
     }
-    document.removeEventListener('keydown', window.cardClose.byKeyDown);
+    var cardClose = document.querySelector('.popup__close');
+    if (cardClose) {
+      cardClose.removeEventListener('click', window.cardClose.byClick);
+      document.removeEventListener('keydown', window.cardClose.byKeyDown);
+    }
+
   };
 
   window.cardClose = {

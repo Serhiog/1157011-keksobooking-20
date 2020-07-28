@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-
   window.util = {
     randomInteger: function (min, max) {
       var rand = min + Math.random() * (max + 1 - min);
