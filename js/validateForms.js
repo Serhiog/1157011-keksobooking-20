@@ -104,7 +104,8 @@
     form: form,
     toClearButton: toClearButton,
     clearBtn: clearBtn,
-    sendForm: sendForm
+    sendForm: sendForm,
+    price: price
   };
 
   window.validateForms.activeForm();

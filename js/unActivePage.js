@@ -19,6 +19,8 @@
       window.validateForms.turnOfControls();
       form.classList.add('ad-form--disabled');
       form.reset();
+      window.validateForms.price.setAttribute('min', '1000');
+      window.validateForms.price.setAttribute('placeholder', '1000');
       formFilterAd.reset();
       var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
       pins.forEach(function (pin) {
